@@ -60,7 +60,7 @@ class ModelName(str, Enum):
 
     GPT_4O = "openai/gpt-4o"
     CLAUDE_SONNET = "anthropic/claude-sonnet-4-20250514"
-    GEMINI_PRO = "google/gemini-1.5-pro"
+    GEMINI_PRO = "google/gemini-2.5-flash"
     PERPLEXITY_SONAR = "perplexity/sonar"
 
 

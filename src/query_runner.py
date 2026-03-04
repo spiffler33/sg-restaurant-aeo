@@ -67,28 +67,44 @@ def _save_raw_response(result: QueryResult) -> Path:
 
 @retry(wait=wait_exponential(multiplier=1, min=2, max=60), stop=stop_after_attempt(5))
 async def _query_openai(prompt: str, search_enabled: bool = False) -> tuple[str, Optional[int]]:
-    """Query OpenAI GPT-4o. Returns (response_text, token_usage)."""
+    """Query OpenAI GPT-4o. Returns (response_text, token_usage).
+
+    When search_enabled=True, uses the Responses API (not Chat Completions)
+    because web_search_preview is only supported there. When search is off,
+    uses the standard Chat Completions API for backward compatibility.
+    """
     from openai import AsyncOpenAI
 
     client = AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
-    kwargs: dict = {
-        "model": "gpt-4o",
-        "messages": [
-            {"role": "system", "content": "You are a helpful restaurant recommendation assistant specializing in Singapore dining."},
-            {"role": "user", "content": prompt},
-        ],
-        "temperature": 0.7,
-        "max_tokens": 2000,
-    }
-
     if search_enabled:
-        # OpenAI web search tool for browsing-enabled queries
-        kwargs["tools"] = [{"type": "web_search_preview"}]
+        # Responses API — required for web_search_preview tool
+        response = await client.responses.create(
+            model="gpt-4o",
+            tools=[{"type": "web_search_preview"}],
+            input=[
+                {"role": "system", "content": "You are a helpful restaurant recommendation assistant specializing in Singapore dining."},
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.7,
+            max_output_tokens=4096,
+        )
+        text = response.output_text or ""
+        usage = response.usage.total_tokens if response.usage else None
+    else:
+        # Standard Chat Completions API
+        response = await client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are a helpful restaurant recommendation assistant specializing in Singapore dining."},
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.7,
+            max_tokens=2000,
+        )
+        text = response.choices[0].message.content or ""
+        usage = response.usage.total_tokens if response.usage else None
 
-    response = await client.chat.completions.create(**kwargs)
-    text = response.choices[0].message.content or ""
-    usage = response.usage.total_tokens if response.usage else None
     return text, usage
 
 
@@ -96,20 +112,33 @@ async def _query_openai(prompt: str, search_enabled: bool = False) -> tuple[str,
 async def _query_anthropic(prompt: str, search_enabled: bool = False) -> tuple[str, Optional[int]]:
     """Query Anthropic Claude Sonnet. Returns (response_text, token_usage).
 
-    Note: Claude doesn't have a built-in search toggle; search_enabled is
-    recorded for metadata consistency but doesn't change the API call.
+    When search_enabled=True, uses the web_search_20250305 server-side tool.
+    Claude will autonomously search the web and include results in its response.
+    The response content may contain text, tool_use, and tool_result blocks;
+    we extract and concatenate only the text blocks.
     """
     from anthropic import AsyncAnthropic
 
     client = AsyncAnthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
 
-    response = await client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=2000,
-        system="You are a helpful restaurant recommendation assistant specializing in Singapore dining.",
-        messages=[{"role": "user", "content": prompt}],
-    )
-    text = response.content[0].text if response.content else ""
+    kwargs: dict = {
+        "model": "claude-sonnet-4-20250514",
+        "max_tokens": 4096 if search_enabled else 2000,
+        "system": "You are a helpful restaurant recommendation assistant specializing in Singapore dining.",
+        "messages": [{"role": "user", "content": prompt}],
+    }
+
+    if search_enabled:
+        # Server-side web search tool — Claude decides when/what to search
+        kwargs["tools"] = [{"type": "web_search_20250305", "name": "web_search", "max_uses": 5}]
+
+    response = await client.messages.create(**kwargs)
+
+    # Extract text from response — with search enabled, content may include
+    # server_tool_use and web_search_tool_result blocks alongside text blocks
+    text_parts = [block.text for block in response.content if hasattr(block, "text")]
+    text = "\n".join(text_parts) if text_parts else ""
+
     usage = (response.usage.input_tokens + response.usage.output_tokens) if response.usage else None
     return text, usage
 
@@ -130,7 +159,7 @@ async def _query_gemini(prompt: str, search_enabled: bool = False) -> tuple[str,
     response = await loop.run_in_executor(
         None,
         lambda: client.models.generate_content(
-            model="gemini-1.5-pro",
+            model="gemini-2.5-flash",
             contents=prompt,
             config=config if config else None,
         ),
@@ -149,9 +178,27 @@ async def _query_gemini(prompt: str, search_enabled: bool = False) -> tuple[str,
 async def _query_perplexity(prompt: str, search_enabled: bool = True) -> tuple[str, Optional[int]]:
     """Query Perplexity Sonar. Returns (response_text, token_usage).
 
-    Perplexity is always search-augmented by design.
+    Perplexity Sonar is ALWAYS search-augmented by design — there is no way
+    to disable web search. Both search_enabled=False and search_enabled=True
+    runs are effectively "search on". When search_enabled=True explicitly,
+    we add search_recency_filter="month" to see if temporal filtering shifts
+    the recommendations. This asymmetry is itself a research finding.
     """
     import httpx
+
+    body: dict = {
+        "model": "sonar",
+        "messages": [
+            {"role": "system", "content": "You are a helpful restaurant recommendation assistant specializing in Singapore dining."},
+            {"role": "user", "content": prompt},
+        ],
+        "temperature": 0.7,
+        "max_tokens": 2000,
+    }
+
+    if search_enabled:
+        # Add recency filter to see if temporal freshness shifts recommendations
+        body["search_recency_filter"] = "month"
 
     async with httpx.AsyncClient() as client:
         response = await client.post(
@@ -160,15 +207,7 @@ async def _query_perplexity(prompt: str, search_enabled: bool = True) -> tuple[s
                 "Authorization": f"Bearer {os.environ['PERPLEXITY_API_KEY']}",
                 "Content-Type": "application/json",
             },
-            json={
-                "model": "sonar",
-                "messages": [
-                    {"role": "system", "content": "You are a helpful restaurant recommendation assistant specializing in Singapore dining."},
-                    {"role": "user", "content": prompt},
-                ],
-                "temperature": 0.7,
-                "max_tokens": 2000,
-            },
+            json=body,
             timeout=60.0,
         )
         response.raise_for_status()
