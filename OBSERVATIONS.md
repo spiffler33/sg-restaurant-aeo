@@ -114,6 +114,68 @@ Post-resolution: **148 restaurants (4.9%)** are mentioned by all 4 models, while
 
 The 148 "consensus restaurants" (known to all 4 models) likely represent the ~5% of Singapore's dining scene that has crossed the AI awareness threshold — sufficient English-language media coverage, review density, and brand recognition to appear in every model's training data.
 
+## 10. Recommendation Stability: Most Suggestions Are Coin Flips
+
+Phase 2c re-ran 15 prompts 5 times each (3 for Claude search ON) across all models — 570 queries total — to measure how reproducible LLM recommendations are at temperature=0.7.
+
+**The headline: only ~26% of recommended restaurants overlap between any two runs of the same prompt.** Mean pairwise Jaccard similarity across all 118 (prompt × model × search) cells is just 0.256. This means if you ask GPT-4o "best mod-Sin restaurants?" twice, roughly 3 out of 4 restaurants in each response will be different.
+
+**79.5% of restaurant appearances are stochastic** — appearing in 2 or fewer out of 5 runs. Only **12.7% are core** (appearing in 4+ runs). The remaining 7.8% are "mid" (appearing in 3 runs).
+
+### Set Stability vs Rank Stability
+
+The rank story is more encouraging. Mean Kendall's tau is 0.571 — when the same restaurants *do* appear across runs, their relative ordering is moderately consistent. The model "knows" Labyrinth should rank above Cheek Bistro; it just can't reliably decide whether to include Cheek Bistro at all.
+
+### Per-Model Stability
+
+| Model | Mean Jaccard | Mean Kendall's τ | Interpretation |
+|---|---|---|---|
+| GPT-4o | **0.317** | 0.574 | Most stable sets — fewest restaurants per response means a tighter "core" |
+| Claude Sonnet | 0.253 | 0.601 | Moderate — good rank stability |
+| Perplexity Sonar | 0.228 | **0.610** | Unstable sets but best rank consistency |
+| Gemini 2.5 Flash | 0.224 | 0.499 | Least stable on both measures |
+
+GPT-4o's higher Jaccard likely traces to its shorter lists (5.6 avg/response). With fewer recommendations, each pick is more "committed." Gemini's 10.9 recommendations per response means more room for stochastic variation — each run pulls different items from a large pool.
+
+### The Specificity Paradox
+
+| Specificity | Jaccard (sets) | Kendall's τ (rank) |
+|---|---|---|
+| Broad | 0.257 | 0.519 |
+| Medium | **0.282** | 0.567 |
+| Narrow | 0.227 | **0.640** |
+
+Narrow prompts ("best xiao long bao in Singapore") have the **worst set overlap** but the **best rank correlation**. There are fewer "obvious" candidates for very specific queries, so each run draws different restaurants — but when two runs agree on a restaurant, they agree on where to rank it.
+
+Medium-specificity prompts hit the sweet spot for set stability — specific enough to constrain the candidate pool, but broad enough that multiple "obvious" picks exist.
+
+### Search Adds Noise
+
+| Mode | Jaccard | Kendall's τ |
+|---|---|---|
+| Search OFF | 0.264 | 0.574 |
+| Search ON | 0.247 | 0.566 |
+
+Web search makes recommendations slightly *less* stable. Each search run may retrieve different pages, introducing additional variance. This is expected — search-augmented responses blend parametric memory with live retrieval, and the retrieval component is inherently non-deterministic.
+
+### AEO Implications
+
+1. **Confidence intervals matter.** Saying "Odette was mentioned 100 times" is more meaningful now — we know the top restaurants are genuinely in the models' core knowledge, not flukes. But a restaurant mentioned 3 times across the original sweep might just be a stochastic artifact.
+
+2. **Repeat querying is essential methodology.** Any AEO study that queries each model only once per prompt is measuring signal + substantial noise. Our stability data suggests you need 3-5 runs per prompt to separate core recommendations from stochastic ones.
+
+3. **Model choice affects reliability.** If you want consistent recommendations, GPT-4o gives the most reproducible results. If you want broad discovery (at the cost of stability), Gemini surfaces the most diverse set.
+
+### Example: cuisine_001 × Claude × Search OFF
+
+Five runs of "What are the best mod-Sin or fusion restaurants in Singapore?"
+
+- **Core (4+/5 runs):** Labyrinth, Burnt Ends, Cloudstreet, Cheek Bistro
+- **Mid (3/5):** Meta, Thevar, Preludio, Birds of a Feather
+- **Stochastic (1-2/5):** Kotuwa, Nae:um, Skai, Artemis Grill, Super Loco, Wild Rocket, JL Studio, Whitegrass, Pangium, Violet Oon, Shinji by Kanesaka, Restaurant Zen, Candlenut, Native, Restaurant Ibid
+
+The 4 core restaurants are genuine Claude-knowledge anchors for this prompt. The 15 stochastic restaurants are drawn from a much larger implicit distribution — they're "known" but not reliably surfaced.
+
 ---
 
-*Last updated: 2026-03-04, after Phase 2b entity resolution. Next: Phase 3 ground truth validation, Phase 4 deep analysis.*
+*Last updated: 2026-03-04, after Phase 2c stability test. Next: Phase 3 ground truth validation, Phase 4 deep analysis.*

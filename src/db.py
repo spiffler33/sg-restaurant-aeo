@@ -113,6 +113,17 @@ def create_tables(conn: sqlite3.Connection) -> None:
         )
     except sqlite3.OperationalError:
         pass  # Column already exists
+
+    # Add stability test columns to query_results if they don't exist
+    for col_sql in [
+        "ALTER TABLE query_results ADD COLUMN is_stability_test BOOLEAN NOT NULL DEFAULT 0",
+        "ALTER TABLE query_results ADD COLUMN run_number INTEGER",
+    ]:
+        try:
+            conn.execute(col_sql)
+        except sqlite3.OperationalError:
+            pass  # Column already exists
+
     conn.commit()
 
 
@@ -176,6 +187,46 @@ def insert_query_result(conn: sqlite3.Connection, result: QueryResult) -> int:
     )
     conn.commit()
     return cursor.lastrowid  # type: ignore[return-value]
+
+
+def insert_stability_result(
+    conn: sqlite3.Connection, result: QueryResult, run_number: int
+) -> int:
+    """Insert a stability test query result with run metadata. Returns the new row ID."""
+    cursor = conn.execute(
+        """
+        INSERT INTO query_results
+            (prompt_id, model_name, search_enabled, raw_response, timestamp,
+             latency_ms, token_usage, is_stability_test, run_number)
+        VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?)
+        """,
+        (
+            result.prompt_id,
+            result.model_name.value,
+            result.search_enabled,
+            result.raw_response,
+            result.timestamp.isoformat(),
+            result.latency_ms,
+            result.token_usage,
+            run_number,
+        ),
+    )
+    conn.commit()
+    return cursor.lastrowid  # type: ignore[return-value]
+
+
+def get_stability_results(conn: sqlite3.Connection) -> list[dict]:
+    """Get all stability test query results as dicts."""
+    rows = conn.execute(
+        """
+        SELECT id, prompt_id, model_name, search_enabled, raw_response,
+               timestamp, latency_ms, token_usage, run_number
+        FROM query_results
+        WHERE is_stability_test = 1
+        ORDER BY prompt_id, model_name, search_enabled, run_number
+        """
+    ).fetchall()
+    return [dict(r) for r in rows]
 
 
 def insert_parsed_response(conn: sqlite3.Connection, parsed: ParsedResponse) -> int:
