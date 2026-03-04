@@ -1,0 +1,917 @@
+[
+  {
+    "name_a": "Old Chengdu Restaurant",
+    "name_b": "Old Chengdu Sichuan Restaurant",
+    "score": 84.6
+  },
+  {
+    "name_a": "Sushi Yoshi",
+    "name_b": "Sushi Yoshitomo",
+    "score": 84.6
+  },
+  {
+    "name_a": "Al-Azhar Eating Restaurant",
+    "name_b": "Al-Azhar Restaurant",
+    "score": 84.4
+  },
+  {
+    "name_a": "Crystal Jade Golden Palace",
+    "name_b": "Crystal Jade Palace",
+    "score": 84.4
+  },
+  {
+    "name_a": "Ramen Keisuke Tonkotsu King",
+    "name_b": "Ramen Keisuke Tonkotsu King Niku King",
+    "score": 84.4
+  },
+  {
+    "name_a": "Fook Kin",
+    "name_b": "Fook Kin 福劲",
+    "score": 84.2
+  },
+  {
+    "name_a": "Shoukouval",
+    "name_b": "Shoukouwa",
+    "score": 84.2
+  },
+  {
+    "name_a": "The Gogi",
+    "name_b": "The Gogijip",
+    "score": 84.2
+  },
+  {
+    "name_a": "Dong Ji La Mian Xiao Long Bao",
+    "name_b": "La Mian Xiao Long Bao",
+    "score": 84.0
+  },
+  {
+    "name_a": "Ah Orh Teochew Restaurant",
+    "name_b": "Teochew Restaurant",
+    "score": 83.7
+  },
+  {
+    "name_a": "Albert Centre Food Centre",
+    "name_b": "Albert Food Centre",
+    "score": 83.7
+  },
+  {
+    "name_a": "Tiong Bahru Bakery",
+    "name_b": "Tiong Bahru Bakery Safari",
+    "score": 83.7
+  },
+  {
+    "name_a": "Ashino",
+    "name_b": "Oshino",
+    "score": 83.3
+  },
+  {
+    "name_a": "Canopy Garden Dining",
+    "name_b": "Canopy Garden Dining & Bar",
+    "score": 83.3
+  },
+  {
+    "name_a": "Hashi",
+    "name_b": "Hashida",
+    "score": 83.3
+  },
+  {
+    "name_a": "Mizuki",
+    "name_b": "Mizumi",
+    "score": 83.3
+  },
+  {
+    "name_a": "Per Se",
+    "name_b": "Persea",
+    "score": 83.3
+  },
+  {
+    "name_a": "Sushiro",
+    "name_b": "USHIO",
+    "score": 83.3
+  },
+  {
+    "name_a": "Tatsu",
+    "name_b": "Tatsuya",
+    "score": 83.3
+  },
+  {
+    "name_a": "Come Daily Fried Hokkien Prawn Mee",
+    "name_b": "Tian Tian Lai (Come Daily) Fried Hokkien Prawn Mee",
+    "score": 82.9
+  },
+  {
+    "name_a": "HENRI Wine Bistro",
+    "name_b": "HENRI Wine Bistro | Bakery",
+    "score": 82.9
+  },
+  {
+    "name_a": "K.Cook Korean BBQ Buffet",
+    "name_b": "Korean BBQ Buffet",
+    "score": 82.9
+  },
+  {
+    "name_a": "Noka by Open Farm Community",
+    "name_b": "Open Farm Community",
+    "score": 82.6
+  },
+  {
+    "name_a": "La Mian Xiao Long Bao",
+    "name_b": "Shanghai La Mian Xiao Long Bao",
+    "score": 82.4
+  },
+  {
+    "name_a": "Soon Kee Teochew Porridge",
+    "name_b": "Soon Soon Teochew Porridge",
+    "score": 82.4
+  },
+  {
+    "name_a": "The Soup Spoon",
+    "name_b": "The Soup Spoon Union",
+    "score": 82.4
+  },
+  {
+    "name_a": "Yet Con Hainanese Chicken Rice",
+    "name_b": "Yet Con Hainanese Chicken Rice & Porridge",
+    "score": 82.2
+  },
+  {
+    "name_a": "Brawn & Brains",
+    "name_b": "Brawn & Brains Coffee",
+    "score": 82.1
+  },
+  {
+    "name_a": "Eng's Wantan Noodle",
+    "name_b": "Koung's Wanton Noodles",
+    "score": 82.1
+  },
+  {
+    "name_a": "Da Luca Italian Restaurant",
+    "name_b": "Da Luca Restaurant",
+    "score": 81.8
+  },
+  {
+    "name_a": "Bedok 85 Fengshan Food Centre",
+    "name_b": "Fengshan Food Centre",
+    "score": 81.6
+  },
+  {
+    "name_a": "Clarke Quay",
+    "name_b": "Zouk Clarke Quay",
+    "score": 81.5
+  },
+  {
+    "name_a": "Potato Head Singapore",
+    "name_b": "Potato Head Folk",
+    "score": 81.5
+  },
+  {
+    "name_a": "Tian Tian Chicken Rice",
+    "name_b": "Tian Tian Hainanese Chicken Rice",
+    "score": 81.5
+  },
+  {
+    "name_a": "Yakiniku-GO",
+    "name_b": "Yakiniku-GO Plus",
+    "score": 81.5
+  },
+  {
+    "name_a": "Ling Zhi Vegetarian",
+    "name_b": "LingZhi Vegetarian",
+    "score": 81.1
+  },
+  {
+    "name_a": "Changi Nasi Lemak",
+    "name_b": "Changi Village Nasi Lemak",
+    "score": 81.0
+  },
+  {
+    "name_a": "Swatow Restaurant",
+    "name_b": "Swatow Seafood Restaurant",
+    "score": 81.0
+  },
+  {
+    "name_a": "Tian Ji Chicken Rice",
+    "name_b": "Tian Tian Chicken Rice",
+    "score": 81.0
+  },
+  {
+    "name_a": "VUE Bar & Grill",
+    "name_b": "VUE Rooftop Bar & Grill",
+    "score": 81.0
+  },
+  {
+    "name_a": "Hong Peng La Mian Xiao Long Bao",
+    "name_b": "La Mian Xiao Long Bao",
+    "score": 80.8
+  },
+  {
+    "name_a": "La Mian Xiao Long Bao",
+    "name_b": "Zhong Guo La Mian Xiao Long Bao",
+    "score": 80.8
+  },
+  {
+    "name_a": "No. 18 Fried Kway Teow",
+    "name_b": "No. 18 Zion Road Fried Kway Teow",
+    "score": 80.8
+  },
+  {
+    "name_a": "Soon Heng Teochew Porridge",
+    "name_b": "Soon Soon Teochew Porridge",
+    "score": 80.8
+  },
+  {
+    "name_a": "Beach Road Scissors Cut Curry Rice",
+    "name_b": "Scissors Cut Curry Rice",
+    "score": 80.7
+  },
+  {
+    "name_a": "Bukit Timah Food Centre",
+    "name_b": "Bukit Timah Market & Food Centre",
+    "score": 80.7
+  },
+  {
+    "name_a": "Lantern at The Fullerton Bay Hotel Singapore",
+    "name_b": "The Fullerton Bay Hotel",
+    "score": 80.7
+  },
+  {
+    "name_a": "88 Pocha",
+    "name_b": "88 Pocha + BBQ",
+    "score": 80.0
+  },
+  {
+    "name_a": "Ah Seah Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 80.0
+  },
+  {
+    "name_a": "Ann Hoo Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 80.0
+  },
+  {
+    "name_a": "Annam",
+    "name_b": "MANAM",
+    "score": 80.0
+  },
+  {
+    "name_a": "Butcher Boy",
+    "name_b": "Butcher's Block",
+    "score": 80.0
+  },
+  {
+    "name_a": "G7 Frog Porridge",
+    "name_b": "Geylang G7 Frog Porridge",
+    "score": 80.0
+  },
+  {
+    "name_a": "Hai Di Lao Hot Pot",
+    "name_b": "Hai Di Lao Hotpot",
+    "score": 80.0
+  },
+  {
+    "name_a": "Hjh Maimunah",
+    "name_b": "Hjh Maimunah Satay",
+    "score": 80.0
+  },
+  {
+    "name_a": "Hougang 6 Miles Famous Muah Chee",
+    "name_b": "Hougang 6 Miles Famous Muah Chee & Putu Piring",
+    "score": 80.0
+  },
+  {
+    "name_a": "Huat Kee Teochew Restaurant",
+    "name_b": "Teochew Restaurant",
+    "score": 80.0
+  },
+  {
+    "name_a": "Kashiwaya",
+    "name_b": "Takashimaya",
+    "score": 80.0
+  },
+  {
+    "name_a": "Katong Laksa",
+    "name_b": "Terry Katong Laksa",
+    "score": 80.0
+  },
+  {
+    "name_a": "Magosaburo",
+    "name_b": "Magosaburo Café",
+    "score": 80.0
+  },
+  {
+    "name_a": "Oshino",
+    "name_b": "Yoshinoya",
+    "score": 80.0
+  },
+  {
+    "name_a": "Pastabar",
+    "name_b": "Pastaro",
+    "score": 80.0
+  },
+  {
+    "name_a": "Shoukouwa",
+    "name_b": "ShuKou",
+    "score": 80.0
+  },
+  {
+    "name_a": "Tamba",
+    "name_b": "Tambi",
+    "score": 80.0
+  },
+  {
+    "name_a": "Tatsu",
+    "name_b": "Tetsu",
+    "score": 80.0
+  },
+  {
+    "name_a": "Teochew Restaurant",
+    "name_b": "Teochew Restaurant Huat Kee",
+    "score": 80.0
+  },
+  {
+    "name_a": "The Public Izakaya",
+    "name_b": "The Public Izakaya by Hachi",
+    "score": 80.0
+  },
+  {
+    "name_a": "Tong Ah Eating House",
+    "name_b": "Yong He Eating House",
+    "score": 80.0
+  },
+  {
+    "name_a": "Yan Palace Restaurant",
+    "name_b": "Yan Restaurant",
+    "score": 80.0
+  },
+  {
+    "name_a": "Greenwood Fish Market",
+    "name_b": "Greenwood Fish Market and Bistro",
+    "score": 79.2
+  },
+  {
+    "name_a": "Long Phung Vietnamese Restaurant",
+    "name_b": "Vietnamese Restaurant",
+    "score": 79.2
+  },
+  {
+    "name_a": "Xin Mei Xiang Lor Mee",
+    "name_b": "Xin Mei Xiang Zheng Zong Lor Mee",
+    "score": 79.2
+  },
+  {
+    "name_a": "Lao Ban Soya Beancurd",
+    "name_b": "Liao Fan Soya Beancurd",
+    "score": 79.1
+  },
+  {
+    "name_a": "PS.Cafe Dempsey",
+    "name_b": "PS.Cafe at Dempsey Hill",
+    "score": 78.9
+  },
+  {
+    "name_a": "SKAI Bar & Restaurant",
+    "name_b": "SKAI Restaurant",
+    "score": 78.9
+  },
+  {
+    "name_a": "Warong Nasi Pariaman",
+    "name_b": "Warung Nasi Padang",
+    "score": 78.9
+  },
+  {
+    "name_a": "Firebake - Woodfired Bakehouse & Restaurant",
+    "name_b": "Firebake Woodfired Bakehouse",
+    "score": 78.9
+  },
+  {
+    "name_a": "Derwish Turkish Mediterranean Restaurant",
+    "name_b": "Derwish Turkish Restaurant",
+    "score": 78.8
+  },
+  {
+    "name_a": "Group Therapy",
+    "name_b": "Group Therapy Coffee",
+    "score": 78.8
+  },
+  {
+    "name_a": "Plain Vanilla",
+    "name_b": "Plain Vanilla Bakery",
+    "score": 78.8
+  },
+  {
+    "name_a": "Xiao Long Kan",
+    "name_b": "Xiao Long Kan Hotpot",
+    "score": 78.8
+  },
+  {
+    "name_a": "Clarke Quay",
+    "name_b": "Privé Clarke Quay",
+    "score": 78.6
+  },
+  {
+    "name_a": "Spago Dining Room by Wolfgang Puck",
+    "name_b": "Spago by Wolfgang Puck",
+    "score": 78.6
+  },
+  {
+    "name_a": "The Beef House",
+    "name_b": "The Greenhouse",
+    "score": 78.6
+  },
+  {
+    "name_a": "The Greenhouse",
+    "name_b": "The Riverhouse",
+    "score": 78.6
+  },
+  {
+    "name_a": "Hawker Chan (Liao Fan Hong Kong Soya Sauce Chicken Rice and Noodle)",
+    "name_b": "Liao Fan Hong Kong Soya Sauce Chicken Rice",
+    "score": 78.5
+  },
+  {
+    "name_a": "Fengshan Food Centre",
+    "name_b": "Fengshan Market & Food Centre",
+    "score": 78.4
+  },
+  {
+    "name_a": "Hong Lim Food Centre",
+    "name_b": "Hong Lim Market & Food Centre",
+    "score": 78.4
+  },
+  {
+    "name_a": "Baker's Brew",
+    "name_b": "Bakery Brera",
+    "score": 78.3
+  },
+  {
+    "name_a": "Cultivate",
+    "name_b": "Cultivate Cafe",
+    "score": 78.3
+  },
+  {
+    "name_a": "Maharani's",
+    "name_b": "Shahi Maharani",
+    "score": 78.3
+  },
+  {
+    "name_a": "Pasta Bar",
+    "name_b": "Tipo Pasta Bar",
+    "score": 78.3
+  },
+  {
+    "name_a": "Shimbashi",
+    "name_b": "Shimbashi Soba",
+    "score": 78.3
+  },
+  {
+    "name_a": "Tian Tian",
+    "name_b": "Tian Tian Fatt",
+    "score": 78.3
+  },
+  {
+    "name_a": "Wah Lok Cantonese Restaurant",
+    "name_b": "Wah Lok Restaurant",
+    "score": 78.3
+  },
+  {
+    "name_a": "Ah Liang Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 78.0
+  },
+  {
+    "name_a": "Broadway Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 78.0
+  },
+  {
+    "name_a": "Guan Kee Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 78.0
+  },
+  {
+    "name_a": "Heng Kee Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 78.0
+  },
+  {
+    "name_a": "Joo Seng Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 78.0
+  },
+  {
+    "name_a": "Min Xing Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 78.0
+  },
+  {
+    "name_a": "Restoran Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 78.0
+  },
+  {
+    "name_a": "Soon Kee Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 78.0
+  },
+  {
+    "name_a": "Teo Heng Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 78.0
+  },
+  {
+    "name_a": "Teochew Porridge",
+    "name_b": "Teochew Rice & Porridge",
+    "score": 78.0
+  },
+  {
+    "name_a": "Amoy Street Food Centre",
+    "name_b": "Pho Hanoi at Amoy Street Food Centre",
+    "score": 78.0
+  },
+  {
+    "name_a": "AN Omakase",
+    "name_b": "Ammakase",
+    "score": 77.8
+  },
+  {
+    "name_a": "Baker & Cook",
+    "name_b": "Baker & Cook Dempsey",
+    "score": 77.8
+  },
+  {
+    "name_a": "Bar Cicheti",
+    "name_b": "Cicheti",
+    "score": 77.8
+  },
+  {
+    "name_a": "Labrynith",
+    "name_b": "Labyrinth",
+    "score": 77.8
+  },
+  {
+    "name_a": "Lantern",
+    "name_b": "Lantern Bar",
+    "score": 77.8
+  },
+  {
+    "name_a": "SJ Tandoori",
+    "name_b": "Tandoor",
+    "score": 77.8
+  },
+  {
+    "name_a": "Geylang Lor 29 Charcoal Fried Hokkien Mee",
+    "name_b": "Geylang Lor 29 Hokkien Mee",
+    "score": 77.6
+  },
+  {
+    "name_a": "CÉ LA VI Restaurant",
+    "name_b": "CÉ LA VI SkyBar & Restaurant",
+    "score": 77.6
+  },
+  {
+    "name_a": "Crystal Jade",
+    "name_b": "Crystal Jade Palace",
+    "score": 77.4
+  },
+  {
+    "name_a": "Halia at Botanic Gardens",
+    "name_b": "The Halia at Singapore Botanic Gardens",
+    "score": 77.4
+  },
+  {
+    "name_a": "Mandarin Oriental",
+    "name_b": "Zuicho at Mandarin Oriental",
+    "score": 77.3
+  },
+  {
+    "name_a": "Red House Seafood",
+    "name_b": "Red House Seafood Esplanade",
+    "score": 77.3
+  },
+  {
+    "name_a": "1-Altitude",
+    "name_b": "1-Altitude Coast",
+    "score": 76.9
+  },
+  {
+    "name_a": "Araya",
+    "name_b": "Sakuraya",
+    "score": 76.9
+  },
+  {
+    "name_a": "Chick-fil-A",
+    "name_b": "Fish & Chicks",
+    "score": 76.9
+  },
+  {
+    "name_a": "Ginza Sushi Ichi",
+    "name_b": "Sushi Ichi",
+    "score": 76.9
+  },
+  {
+    "name_a": "Hashi",
+    "name_b": "Shashlik",
+    "score": 76.9
+  },
+  {
+    "name_a": "Jalan Kayu",
+    "name_b": "Jalan Kayu Prata",
+    "score": 76.9
+  },
+  {
+    "name_a": "LOCABA",
+    "name_b": "Locanda",
+    "score": 76.9
+  },
+  {
+    "name_a": "Maggie's",
+    "name_b": "Magpie",
+    "score": 76.9
+  },
+  {
+    "name_a": "Plain Vanilla Bakery",
+    "name_b": "Plain Vanilla Bakery @ Cluny Court",
+    "score": 76.9
+  },
+  {
+    "name_a": "Prince Noodles",
+    "name_b": "Spicy Noodle Singapore",
+    "score": 76.9
+  },
+  {
+    "name_a": "Shinji",
+    "name_b": "Shinrai Singapore",
+    "score": 76.9
+  },
+  {
+    "name_a": "Shinrai Singapore",
+    "name_b": "Shiraz",
+    "score": 76.9
+  },
+  {
+    "name_a": "Spago Bar & Lounge",
+    "name_b": "Spago Bar & Lounge / Dining Room",
+    "score": 76.9
+  },
+  {
+    "name_a": "Tentsuru",
+    "name_b": "Tetsu",
+    "score": 76.9
+  },
+  {
+    "name_a": "East Ocean Teochew Restaurant",
+    "name_b": "Teochew Restaurant",
+    "score": 76.6
+  },
+  {
+    "name_a": "Nassim Hill Bakery",
+    "name_b": "Nassim Hill Bakery Bistro Bar",
+    "score": 76.6
+  },
+  {
+    "name_a": "Publico Ristorante",
+    "name_b": "Publico Ristorante & Garden",
+    "score": 76.6
+  },
+  {
+    "name_a": "Fortuna - Italian Pizza & Pasta Restaurant",
+    "name_b": "Fortuna Italian Restaurant",
+    "score": 76.5
+  },
+  {
+    "name_a": "Keisuke Tonkotsu King",
+    "name_b": "Tonkotsu King",
+    "score": 76.5
+  },
+  {
+    "name_a": "O.BBa Jjajang",
+    "name_b": "O.BBa Jjajang & BBQ",
+    "score": 76.5
+  },
+  {
+    "name_a": "Tanjong Pagar Plaza Market",
+    "name_b": "Tanjong Pagar Plaza Market & Food Centre",
+    "score": 76.5
+  },
+  {
+    "name_a": "Wildseed Cafe",
+    "name_b": "Wildseed Cafe & Bar",
+    "score": 76.5
+  },
+  {
+    "name_a": "Crystal Jade La Mian Xiao Long Bao",
+    "name_b": "La Mian Xiao Long Bao",
+    "score": 76.4
+  },
+  {
+    "name_a": "Heng Long Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 76.2
+  },
+  {
+    "name_a": "Le Bistrot",
+    "name_b": "VIBE Bistro",
+    "score": 76.2
+  },
+  {
+    "name_a": "Les Amis",
+    "name_b": "Mami's Tamales",
+    "score": 76.2
+  },
+  {
+    "name_a": "Manhatta",
+    "name_b": "Manhattan Bar",
+    "score": 76.2
+  },
+  {
+    "name_a": "Maxwell Food Centre – Tian Tian Hainanese Chicken Rice",
+    "name_b": "Tian Tian Hainanese Chicken Rice",
+    "score": 76.2
+  },
+  {
+    "name_a": "Soon Heng Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 76.2
+  },
+  {
+    "name_a": "Soon Soon Teochew Porridge",
+    "name_b": "Teochew Porridge",
+    "score": 76.2
+  },
+  {
+    "name_a": "Teochew Porridge",
+    "name_b": "Yuan Yang Teochew Porridge",
+    "score": 76.2
+  },
+  {
+    "name_a": "Wildseed",
+    "name_b": "Wildseed Cafe",
+    "score": 76.2
+  },
+  {
+    "name_a": "Zeppelin",
+    "name_b": "Zeppelin Hall",
+    "score": 76.2
+  },
+  {
+    "name_a": "Hill Street Tai Hwa",
+    "name_b": "Hill Street Tai Hwa Pork Noodle",
+    "score": 76.0
+  },
+  {
+    "name_a": "Hill Street Tai Hwa Pork Noodle",
+    "name_b": "Tai Hwa Pork Noodle",
+    "score": 76.0
+  },
+  {
+    "name_a": "Surrey Hills Grocer",
+    "name_b": "Surrey Hills Grocer @ ION Orchard",
+    "score": 76.0
+  },
+  {
+    "name_a": "Clarke Quay",
+    "name_b": "IPPUDO Clarke Quay",
+    "score": 75.9
+  },
+  {
+    "name_a": "Don Dae Bak",
+    "name_b": "Don Dae Bak Bistro",
+    "score": 75.9
+  },
+  {
+    "name_a": "Forty Hands",
+    "name_b": "Forty Hands Coffee",
+    "score": 75.9
+  },
+  {
+    "name_a": "Wine Connection Bistro",
+    "name_b": "Wine Connection Tapas Bar & Bistro",
+    "score": 75.9
+  },
+  {
+    "name_a": "Penang Culture",
+    "name_b": "Penang Culture Catering",
+    "score": 75.7
+  },
+  {
+    "name_a": "Chinatown Complex",
+    "name_b": "Chinatown Complex Food Court",
+    "score": 75.6
+  },
+  {
+    "name_a": "Maxwell Food Centre's Tian Tian Hainanese Chicken Rice",
+    "name_b": "Tian Tian Hainanese Chicken Rice",
+    "score": 75.3
+  },
+  {
+    "name_a": "Altro Zafferano",
+    "name_b": "Zafferano",
+    "score": 75.0
+  },
+  {
+    "name_a": "Ah Seng",
+    "name_b": "Hua Sheng",
+    "score": 75.0
+  },
+  {
+    "name_a": "Ampang Kitchen",
+    "name_b": "The Sampan",
+    "score": 75.0
+  },
+  {
+    "name_a": "Cocotte",
+    "name_b": "PocoLatte",
+    "score": 75.0
+  },
+  {
+    "name_a": "Crystal Jade",
+    "name_b": "Crystal Jade Kitchen",
+    "score": 75.0
+  },
+  {
+    "name_a": "FU LIN",
+    "name_b": "Fu Lin Men",
+    "score": 75.0
+  },
+  {
+    "name_a": "Feng Shui Inn",
+    "name_b": "Shi Li Fang",
+    "score": 75.0
+  },
+  {
+    "name_a": "Gibson",
+    "name_b": "Gibson Bar",
+    "score": 75.0
+  },
+  {
+    "name_a": "Hanseng",
+    "name_b": "Hua Sheng",
+    "score": 75.0
+  },
+  {
+    "name_a": "Harry's",
+    "name_b": "Harry's Bar",
+    "score": 75.0
+  },
+  {
+    "name_a": "Kanoyama",
+    "name_b": "Takayama",
+    "score": 75.0
+  },
+  {
+    "name_a": "Katsuan",
+    "name_b": "Katsukura",
+    "score": 75.0
+  },
+  {
+    "name_a": "Katsukura",
+    "name_b": "Katsuya",
+    "score": 75.0
+  },
+  {
+    "name_a": "Min Jiang",
+    "name_b": "Min Jiang House",
+    "score": 75.0
+  },
+  {
+    "name_a": "Native",
+    "name_b": "Native Bar",
+    "score": 75.0
+  },
+  {
+    "name_a": "No Signboard",
+    "name_b": "No Signboard Seafood",
+    "score": 75.0
+  },
+  {
+    "name_a": "PeraMakan",
+    "name_b": "Permata Singapore",
+    "score": 75.0
+  },
+  {
+    "name_a": "Pietra Santa",
+    "name_b": "Saint Pierre",
+    "score": 75.0
+  },
+  {
+    "name_a": "Shoukouval",
+    "name_b": "ShuKou",
+    "score": 75.0
+  },
+  {
+    "name_a": "Takayama",
+    "name_b": "WakaMama",
+    "score": 75.0
+  },
+  {
+    "name_a": "Tanjong Beach Club",
+    "name_b": "Trapizza at Tanjong Beach Club",
+    "score": 75.0
+  },
+  {
+    "name_a": "Tong Heng",
+    "name_b": "Yong He",
+    "score": 75.0
+  }
+]

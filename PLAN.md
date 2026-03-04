@@ -33,7 +33,7 @@
   - `name` (normalized — handle spelling variations)
   - `rank_position` (order mentioned in response, 1-indexed)
   - `neighbourhood` mentioned
-  - `cuisine_tags` 
+  - `cuisine_tags`
   - `vibe_tags` (romantic, casual, lively, quiet, etc.)
   - `price_indicator` if mentioned
   - `descriptors` (raw adjectives/phrases used)
@@ -46,6 +46,44 @@
 - [ ] Build a canonical restaurant registry from all parsed mentions
 - [ ] Fuzzy match variants ("Burnt Ends" / "Burnt Ends Singapore" / "burnt ends")
 - [ ] Manual review pass for ambiguous cases
+
+Phase 2c: Recommendation Stability Test
+Goal: Quantify how reproducible LLM restaurant recommendations are across repeated identical queries. This transforms single-draw observations into statistically grounded findings.
+Design:
+
+Select 15 prompts stratified across the prompt library:
+
+5 broad (e.g., "Best restaurants in Singapore")
+5 medium (e.g., "Date night in Tiong Bahru")
+5 narrow (e.g., "Omakase under $150 near Tanjong Pagar")
+
+
+Also stratify across dimensions — pick from cuisine, neighbourhood, vibe, occasion, price (3 prompts each)
+Run each prompt 5 times per model, both search ON and OFF
+That's 15 prompts × 5 runs × 4 models × 2 modes = 600 queries
+Estimated cost: ~$15-20 (half are search ON, Claude search ON is the expensive part — consider running Claude search ON at only 3 reruns to control cost)
+
+Parameters:
+
+Use the same temperature settings as the original sweep (document what they were)
+Same system prompts, same everything — the only variable is the stochastic sampling
+Tag these in the DB with a run_number (1-5) and is_stability_test=True
+
+Metrics to compute per prompt × model × search mode:
+
+Set stability (Jaccard): Of the restaurants returned across 5 runs, what fraction appear in all 5 vs only 1? Jaccard similarity between all pairs of runs.
+Rank stability (Kendall's tau): For restaurants that appear in multiple runs, how consistent is their rank order?
+Core vs stochastic split: Restaurants in 4/5 or 5/5 runs = "core recommendations." 1/5 or 2/5 = "stochastic tail." What percentage of mentions fall in each bucket?
+Stability by specificity: Are narrow prompts more stable than broad ones? (Hypothesis: yes, because the answer space is more constrained.)
+Stability by model: Which model is most consistent? (Hypothesis: Perplexity, because search grounds it to specific sources.)
+
+Deliverables:
+
+Stability metrics table by model and specificity level
+A confidence tier tag on every restaurant in the main dataset: if a restaurant's prompt appearances are mostly in "core" buckets across the stability test, it gets high confidence. If it only appeared once and that prompt wasn't in the stability test, flag it as unvalidated.
+A "Recommendation Stability" section for the README/notebooks — this is a methodological contribution in its own right
+
+Cost control lever: If Claude search ON is blowing the budget, do only 3 reruns for Claude search ON (still enough for basic stability measurement). That drops from 600 to 540 queries and saves ~$20.
 
 ## Phase 3: Ground Truth + Validation (Week 3)
 **Goal:** Build comparison datasets independent of LLM training data.

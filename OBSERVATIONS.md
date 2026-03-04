@@ -78,6 +78,42 @@ Odette (3 Michelin stars) is mentioned 100 times with an average rank of 3.0 —
 
 But GPT-4o ranks it highest (avg 2.6, 29 mentions) while Gemini places it lower (avg 4.2, 22 mentions). GPT-4o appears to have the strongest "prestige pull" — Michelin stars, awards, and media accolades seem to weigh more heavily in its ranking.
 
+## 8. Entity Resolution: The Name Fragmentation Problem
+
+Phase 2b collapsed **3,332 raw name strings → 3,038 canonical restaurants** (294 merges, 8.8% reduction). The automated pipeline used three stages: exact normalized match (140 merges), base name grouping (60), and fuzzy matching with a shared-word penalty (94).
+
+**The naming chaos is real.** LLMs refer to the same restaurant in wildly different ways:
+
+| Restaurant | Variant Count | Example Variants |
+|---|---|---|
+| CÉ LA VI | 7 | CÉ LA VI, Ce La Vi, Ce La Vie, Cé La Vi, CE LA VI, Ce La Vié, CÉ LA VIE |
+| Mr & Mrs Mohgan's | 7 | Mr & Mrs Mohgan's Super Crispy Prata, Mr and Mrs Moghan's Super Crispy Prata, ... |
+| PS.Cafe | 6 | PS.Cafe, P.S. Cafe, PS. Cafe, P.S. Café, PS Cafe, PS. Café |
+| Liao Fan / Hawker Chan | 5 | Liao Fan Hong Kong Soya Sauce Chicken Rice & Noodle, Hawker Chan (Liao Fan...) |
+
+**Variant patterns by type:**
+- **Unicode/punctuation** (43% of merges): CÉ vs Ce, PS.Cafe vs PS Cafe, & vs and
+- **Structural reordering** (22%): "Restaurant Labyrinth" vs "Labyrinth Restaurant"
+- **Location qualifiers** (18%): "Jumbo Seafood at Dempsey Hill" vs "Jumbo Seafood"
+- **Spelling variations** (17%): "Komala Vilas" vs "Komala Villas", "Moghan's" vs "Mohgan's"
+
+**AEO implication:** If you're a restaurant optimizing for LLM recommendations, your *exact name* as recognized by each model matters. CÉ LA VI has 43 total mentions but they're scattered across 7 spelling variants — a brand consistency problem that didn't exist in the Google Search era.
+
+## 9. The Long Tail Is Enormous
+
+Post-resolution: **148 restaurants (4.9%)** are mentioned by all 4 models, while **2,175 (71.6%)** are mentioned by only one. Gemini alone "knows" 1,620 canonical restaurants — more than the other three models combined (if deduplicated).
+
+| Model | Unique Restaurants Known | % of All 3,038 |
+|---|---|---|
+| Gemini 2.5 Flash | 1,620 | 53.3% |
+| Claude Sonnet | 1,126 | 37.1% |
+| Perplexity Sonar | 1,052 | 34.6% |
+| GPT-4o | 632 | 20.8% |
+
+**The discovery gap is 2.6x** — Gemini surfaces 2.6x more unique restaurants than GPT-4o. For a lesser-known restaurant, being in Gemini's knowledge base is table stakes; being in GPT-4o's curated list is the prize.
+
+The 148 "consensus restaurants" (known to all 4 models) likely represent the ~5% of Singapore's dining scene that has crossed the AI awareness threshold — sufficient English-language media coverage, review density, and brand recognition to appear in every model's training data.
+
 ---
 
-*Last updated: 2026-03-04, after Phase 2a parsing. Will update as entity resolution and deeper analysis proceed.*
+*Last updated: 2026-03-04, after Phase 2b entity resolution. Next: Phase 3 ground truth validation, Phase 4 deep analysis.*

@@ -169,3 +169,27 @@ class ParsedResponse(BaseModel):
     parsed_at: datetime = Field(
         default_factory=datetime.utcnow, description="When parsing was performed"
     )
+
+
+class CanonicalRestaurant(BaseModel):
+    """A resolved restaurant entity after entity resolution.
+
+    Collapses multiple name variants (e.g. "PS.Cafe", "PS. Café",
+    "PS.Cafe at Dempsey Hill") into a single canonical entry with
+    aggregated mention stats.
+    """
+
+    canonical_id: int = Field(..., description="Unique canonical restaurant ID")
+    canonical_name: str = Field(..., description="The chosen canonical name")
+    variant_names: list[str] = Field(
+        default_factory=list, description="All raw name variants that resolved here"
+    )
+    total_mentions: int = Field(
+        default=0, description="Sum of mentions across all variants"
+    )
+    model_count: int = Field(
+        default=0, description="How many of the 4 models mention this restaurant"
+    )
+    models_mentioning: list[str] = Field(
+        default_factory=list, description="Which models mention it"
+    )

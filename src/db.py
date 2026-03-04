@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Optional
 
 from .models import (
+    CanonicalRestaurant,
     DiscoveryPrompt,
     ModelName,
     ParsedResponse,
@@ -91,8 +92,27 @@ def create_tables(conn: sqlite3.Connection) -> None:
             ON restaurant_mentions(restaurant_name);
         CREATE INDEX IF NOT EXISTS idx_restaurant_mentions_parsed
             ON restaurant_mentions(parsed_response_id);
+
+        CREATE TABLE IF NOT EXISTS canonical_restaurants (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            canonical_name TEXT NOT NULL UNIQUE,
+            variant_names TEXT NOT NULL DEFAULT '[]',
+            total_mentions INTEGER NOT NULL DEFAULT 0,
+            model_count INTEGER NOT NULL DEFAULT 0,
+            models_mentioning TEXT NOT NULL DEFAULT '[]'
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_canonical_restaurants_name
+            ON canonical_restaurants(canonical_name);
         """
     )
+    # Add canonical_id column to restaurant_mentions if it doesn't exist
+    try:
+        conn.execute(
+            "ALTER TABLE restaurant_mentions ADD COLUMN canonical_id INTEGER REFERENCES canonical_restaurants(id)"
+        )
+    except sqlite3.OperationalError:
+        pass  # Column already exists
     conn.commit()
 
 
@@ -295,6 +315,86 @@ def get_mention_counts(conn: sqlite3.Connection) -> list[dict]:
         JOIN query_results qr ON pr.query_result_id = qr.id
         GROUP BY rm.restaurant_name
         ORDER BY total_mentions DESC
+        """
+    ).fetchall()
+    return [dict(r) for r in rows]
+
+
+# ---------------------------------------------------------------------------
+# Canonical restaurant operations
+# ---------------------------------------------------------------------------
+
+
+def reset_canonical_data(conn: sqlite3.Connection) -> None:
+    """Clear all canonical data for a clean re-run (idempotent)."""
+    conn.execute("UPDATE restaurant_mentions SET canonical_id = NULL")
+    conn.execute("DELETE FROM canonical_restaurants")
+    conn.commit()
+
+
+def insert_canonical_restaurant(
+    conn: sqlite3.Connection,
+    canonical_name: str,
+    variant_names: list[str],
+    total_mentions: int,
+    model_count: int,
+    models_mentioning: list[str],
+) -> int:
+    """Insert a canonical restaurant entry. Returns the new row ID."""
+    cursor = conn.execute(
+        """
+        INSERT INTO canonical_restaurants
+            (canonical_name, variant_names, total_mentions, model_count, models_mentioning)
+        VALUES (?, ?, ?, ?, ?)
+        """,
+        (
+            canonical_name,
+            json.dumps(variant_names),
+            total_mentions,
+            model_count,
+            json.dumps(models_mentioning),
+        ),
+    )
+    return cursor.lastrowid  # type: ignore[return-value]
+
+
+def link_mentions_to_canonical(
+    conn: sqlite3.Connection,
+    canonical_id: int,
+    variant_names: list[str],
+) -> int:
+    """Set canonical_id on all restaurant_mentions matching any variant name.
+
+    Returns the number of rows updated.
+    """
+    placeholders = ",".join("?" for _ in variant_names)
+    cursor = conn.execute(
+        f"""
+        UPDATE restaurant_mentions
+        SET canonical_id = ?
+        WHERE restaurant_name IN ({placeholders})
+        """,
+        [canonical_id] + variant_names,
+    )
+    return cursor.rowcount
+
+
+def get_canonical_mention_counts(conn: sqlite3.Connection) -> list[dict]:
+    """Get mention counts grouped by canonical restaurant — the post-resolution analysis query."""
+    rows = conn.execute(
+        """
+        SELECT
+            cr.canonical_name,
+            cr.total_mentions,
+            cr.model_count,
+            cr.models_mentioning,
+            cr.variant_names,
+            AVG(rm.rank_position) as avg_rank,
+            SUM(rm.is_primary_recommendation) as primary_count
+        FROM canonical_restaurants cr
+        JOIN restaurant_mentions rm ON rm.canonical_id = cr.id
+        GROUP BY cr.id
+        ORDER BY cr.total_mentions DESC
         """
     ).fetchall()
     return [dict(r) for r in rows]
