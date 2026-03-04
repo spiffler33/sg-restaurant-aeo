@@ -1,0 +1,982 @@
+[
+  {
+    "id": "comparison_001",
+    "text": "What's the best new restaurant that opened in Singapore this year? I want to try somewhere that's genuinely exciting and not just hype.",
+    "dimension": "comparison",
+    "category": "best_new",
+    "specificity": "broad"
+  },
+  {
+    "id": "comparison_002",
+    "text": "Is the Singapore food scene actually world-class or is it overhyped? How does it compare to Tokyo, Bangkok, or Hong Kong for a food trip?",
+    "dimension": "comparison",
+    "category": "global_comparison",
+    "specificity": "broad"
+  },
+  {
+    "id": "comparison_003",
+    "text": "What restaurants have gone downhill recently in Singapore? Used to be great but have dropped off in quality.",
+    "dimension": "comparison",
+    "category": "gone_downhill",
+    "specificity": "broad"
+  },
+  {
+    "id": "comparison_004",
+    "text": "I see all these 'Singapore's 50 Best' type lists. How much should I trust them? Which restaurant ranking or guide is actually the most reliable for Singapore?",
+    "dimension": "comparison",
+    "category": "meta_ranking",
+    "specificity": "broad"
+  },
+  {
+    "id": "comparison_005",
+    "text": "What restaurants in Singapore are overrated? The ones that everyone recommends but locals know aren't actually that great.",
+    "dimension": "comparison",
+    "category": "overrated",
+    "specificity": "broad"
+  },
+  {
+    "id": "comparison_006",
+    "text": "Most underrated restaurants in Singapore? The places that never make the Instagram lists but the food absolutely slaps.",
+    "dimension": "comparison",
+    "category": "underrated",
+    "specificity": "broad"
+  },
+  {
+    "id": "comparison_007",
+    "text": "I can't decide between a steakhouse or a sushi bar for tonight. Which is better in the $150/pax price range?",
+    "dimension": "comparison",
+    "category": "head_to_head",
+    "specificity": "medium"
+  },
+  {
+    "id": "comparison_008",
+    "text": "Which one-Michelin-star restaurant in Singapore gives you the best experience for the price? I want to try Michelin dining without the three-star price tag.",
+    "dimension": "comparison",
+    "category": "michelin_value",
+    "specificity": "medium"
+  },
+  {
+    "id": "comparison_009",
+    "text": "Rank the best brunch spots in Singapore. I've tried Merci Marcel, Wild Honey, and Atlas Coffeehouse. What else should be on my list and how do they compare?",
+    "dimension": "comparison",
+    "category": "top_ranking",
+    "specificity": "medium"
+  },
+  {
+    "id": "comparison_010",
+    "text": "Best roast meats (char siew / sio bak) in Singapore — give me your top 3.",
+    "dimension": "comparison",
+    "category": "best_in_category",
+    "specificity": "narrow"
+  },
+  {
+    "id": "comparison_011",
+    "text": "Lolla vs Cloudstreet vs Zen — where am I getting the best bang for my buck for a special occasion? All seem to be in that upper-mid to fine dining range.",
+    "dimension": "comparison",
+    "category": "head_to_head",
+    "specificity": "narrow"
+  },
+  {
+    "id": "comparison_012",
+    "text": "Is Burnt Ends really worth the 3-month wait, or is there a similar open-fire concept that's just as good?",
+    "dimension": "comparison",
+    "category": "top_ranking",
+    "specificity": "narrow"
+  },
+  {
+    "id": "comparison_013",
+    "text": "Is Odette worth it? I keep seeing it on every best-of list but the prices are insane. Has anyone been recently? Is it still as good as people say?",
+    "dimension": "comparison",
+    "category": "worth_it",
+    "specificity": "narrow"
+  },
+  {
+    "id": "constraint_001",
+    "text": "I'm vegetarian — what are the best restaurants in Singapore that won't treat veg like an afterthought?",
+    "dimension": "constraint",
+    "category": "vegetarian",
+    "specificity": "broad"
+  },
+  {
+    "id": "constraint_002",
+    "text": "Dog-friendly restaurants in Singapore where I can bring my golden retriever? Outdoor seating is fine. Just want somewhere that actually welcomes dogs, not just tolerates them.",
+    "dimension": "constraint",
+    "category": "dog_friendly",
+    "specificity": "medium"
+  },
+  {
+    "id": "constraint_003",
+    "text": "Restaurants in Singapore with solid gluten-free options? My partner has celiac disease and most places here don't even know what gluten-free means. Need somewhere that actually takes it seriously.",
+    "dimension": "constraint",
+    "category": "gluten_free",
+    "specificity": "medium"
+  },
+  {
+    "id": "constraint_004",
+    "text": "I'm on keto. Where can I eat in Singapore without wanting to cry? Everywhere here is rice and noodles. Need proper keto-friendly restaurant meals.",
+    "dimension": "constraint",
+    "category": "keto",
+    "specificity": "medium"
+  },
+  {
+    "id": "constraint_005",
+    "text": "I need a place that can take a group of 10–14 and won't be a logistical nightmare.",
+    "dimension": "constraint",
+    "category": "large_group",
+    "specificity": "medium"
+  },
+  {
+    "id": "constraint_006",
+    "text": "What restaurants in Singapore are still open after 10pm? Not supper spots or prata places — actual sit-down restaurants where I can have a proper dinner late because I work ridiculous hours.",
+    "dimension": "constraint",
+    "category": "late_night_dining",
+    "specificity": "medium"
+  },
+  {
+    "id": "constraint_007",
+    "text": "Best vegetarian restaurants in Singapore? And I mean actually good food that happens to be vegetarian, not just sad salads and mock meat. My vegetarian friends are tired of having no options.",
+    "dimension": "constraint",
+    "category": "vegetarian",
+    "specificity": "medium"
+  },
+  {
+    "id": "constraint_008",
+    "text": "No-reservation, walk-in-only restaurants in Singapore that are worth the queue? I hate planning ahead but I love good food. Where should I just show up?",
+    "dimension": "constraint",
+    "category": "walk_in",
+    "specificity": "medium"
+  },
+  {
+    "id": "constraint_009",
+    "text": "My grandmother uses a wheelchair. What restaurants in Singapore are properly wheelchair accessible? Not just 'technically has a ramp' — I mean actually easy to get around in.",
+    "dimension": "constraint",
+    "category": "wheelchair_accessible",
+    "specificity": "medium"
+  },
+  {
+    "id": "constraint_010",
+    "text": "Good halal fine dining options in Singapore? Taking my parents out for their anniversary — they're practicing Muslims so halal is a must, but I want somewhere really special.",
+    "dimension": "constraint",
+    "category": "halal_fine_dining",
+    "specificity": "narrow"
+  },
+  {
+    "id": "constraint_011",
+    "text": "I need a restaurant that can seat a group of 12-15 people comfortably. Preferably with a long table or private room. Chinese, Japanese, or Thai preferred. Budget around $50-70pp.",
+    "dimension": "constraint",
+    "category": "large_group",
+    "specificity": "narrow"
+  },
+  {
+    "id": "constraint_012",
+    "text": "I need a restaurant with a private dining room for 10 people in the Tanjong Pagar area.",
+    "dimension": "constraint",
+    "category": "private_dining",
+    "specificity": "narrow"
+  },
+  {
+    "id": "constraint_013",
+    "text": "Restaurants in Singapore where I can dabao food for a house party? Like really good food that travels well — not pizza. Need to pick up for about 10 people. Budget $200-300 total.",
+    "dimension": "constraint",
+    "category": "takeaway_catering",
+    "specificity": "narrow"
+  },
+  {
+    "id": "cuisine_001",
+    "text": "What are the best mod-Sin or fusion restaurants in Singapore right now? Places that take local flavours and do something creative with them.",
+    "dimension": "cuisine",
+    "category": "fusion",
+    "specificity": "broad"
+  },
+  {
+    "id": "cuisine_002",
+    "text": "Where got shiok Indian food, North Indian preferably?",
+    "dimension": "cuisine",
+    "category": "indian_north",
+    "specificity": "broad"
+  },
+  {
+    "id": "cuisine_003",
+    "text": "Best Japanese food in Singapore? I'm open to anything — sushi, ramen, izakaya.",
+    "dimension": "cuisine",
+    "category": "japanese",
+    "specificity": "broad"
+  },
+  {
+    "id": "cuisine_004",
+    "text": "I'm looking for authentic Teochew porridge for a late-night meal. Somewhere with a lot of side dish variety.",
+    "dimension": "cuisine",
+    "category": "chinese",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_005",
+    "text": "Recommend me good Cantonese restaurants in Singapore. I want the real deal — proper dim sum, roast meats, the works.",
+    "dimension": "cuisine",
+    "category": "chinese_cantonese",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_006",
+    "text": "Where's the best Sichuan mala hotpot in Singapore? I want the kind where my lips go numb. Not the watered-down tourist version.",
+    "dimension": "cuisine",
+    "category": "chinese_sichuan",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_007",
+    "text": "Teochew porridge near my office in CBD, cheap and good.",
+    "dimension": "cuisine",
+    "category": "chinese_teochew",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_008",
+    "text": "Any legit French bistro in Singapore? Like a proper neighbourhood bistro feel, not fine dining with the white tablecloths. Just good steak frites and a carafe of wine.",
+    "dimension": "cuisine",
+    "category": "french",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_009",
+    "text": "Best North Indian restaurant in Singapore? I want proper tandoori and naan, not the food court version.",
+    "dimension": "cuisine",
+    "category": "indian_north",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_010",
+    "text": "Best Italian restaurant in Singapore that isn't a hotel restaurant? Looking for somewhere with handmade pasta and a good wine list.",
+    "dimension": "cuisine",
+    "category": "italian",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_011",
+    "text": "I'm craving really good sushi — not the conveyor belt kind, but not omakase prices either. Something in the $50-80 range per person. Where should I go?",
+    "dimension": "cuisine",
+    "category": "japanese_sushi",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_012",
+    "text": "Where's the best Korean BBQ in Singapore that doesn't smell like smoke for 2 days after?",
+    "dimension": "cuisine",
+    "category": "korean",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_013",
+    "text": "I want to try authentic Malay Nasi Padang. Where should I go in Geylang or Kampong Glam?",
+    "dimension": "cuisine",
+    "category": "malay",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_014",
+    "text": "Is there actually good Mexican food in Singapore? Like proper tacos, not Tex-Mex. Bonus points if they make their own tortillas.",
+    "dimension": "cuisine",
+    "category": "mexican",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_015",
+    "text": "Any good Middle Eastern restaurants in Singapore? Thinking shawarma, hummus, grilled meats — the full spread. Preferably near Arab Street area.",
+    "dimension": "cuisine",
+    "category": "middle_eastern",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_016",
+    "text": "What's a good Peranakan spot for my parents visiting Singapore? Classic but not too atas.",
+    "dimension": "cuisine",
+    "category": "peranakan",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_017",
+    "text": "Where's good for Thai food in Singapore? Not talking about Nakhon Kitchen level — something a step up but still casual.",
+    "dimension": "cuisine",
+    "category": "thai",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_018",
+    "text": "I miss the pho I had in Hanoi. Where's the closest thing in Singapore? Bonus if they do a good bun cha too.",
+    "dimension": "cuisine",
+    "category": "vietnamese",
+    "specificity": "medium"
+  },
+  {
+    "id": "cuisine_019",
+    "text": "Best xiao long bao in Singapore? I've had Din Tai Fung obviously, but where else does really good soup dumplings? Preferably somewhere less commercial.",
+    "dimension": "cuisine",
+    "category": "chinese_specific_dish",
+    "specificity": "narrow"
+  },
+  {
+    "id": "cuisine_020",
+    "text": "Any good Teochew porridge restaurants still around? My grandmother used to take me to one in Chinatown but it's closed. Looking for that old-school style with all the small dishes.",
+    "dimension": "cuisine",
+    "category": "chinese_teochew",
+    "specificity": "narrow"
+  },
+  {
+    "id": "cuisine_021",
+    "text": "Where can I get a really good South Indian banana leaf meal in Little India? The kind with unlimited rice and like 6 different vegetables.",
+    "dimension": "cuisine",
+    "category": "indian_south",
+    "specificity": "narrow"
+  },
+  {
+    "id": "cuisine_022",
+    "text": "Which Italian restaurant in Singapore has the best handmade pasta? I specifically want a good carbonara (no cream!).",
+    "dimension": "cuisine",
+    "category": "italian",
+    "specificity": "narrow"
+  },
+  {
+    "id": "cuisine_023",
+    "text": "Where can I get good uni sushi near Orchard that isn't outrageously expensive? Like actual quality uni, not the frozen stuff.",
+    "dimension": "cuisine",
+    "category": "japanese_sushi",
+    "specificity": "narrow"
+  },
+  {
+    "id": "cuisine_024",
+    "text": "Where can I get legit wagyu beef in Singapore without paying $300? Like A5 wagyu, properly prepared, not the random 'wagyu burger' nonsense.",
+    "dimension": "cuisine",
+    "category": "japanese_wagyu",
+    "specificity": "narrow"
+  },
+  {
+    "id": "cuisine_025",
+    "text": "Looking for real Thai flavours (som tum, larb, pad kra pao) near Tanjong Pagar — where's good?",
+    "dimension": "cuisine",
+    "category": "thai",
+    "specificity": "narrow"
+  },
+  {
+    "id": "experiential_001",
+    "text": "Where do Singapore's chefs eat on their day off? I want the insider places — where the industry people actually go, not the places they promote on Instagram.",
+    "dimension": "experiential",
+    "category": "insider_knowledge",
+    "specificity": "broad"
+  },
+  {
+    "id": "experiential_002",
+    "text": "I'm visiting Singapore for 3 days and I want to experience the full range of food — from hawker centres to fine dining, local classics to modern Asian. Plan my meals for all 3 days. Budget is flexible.",
+    "dimension": "experiential",
+    "category": "meal_planning",
+    "specificity": "broad"
+  },
+  {
+    "id": "experiential_003",
+    "text": "I've been to Singapore 5 times and I've done all the usual spots — Hawker Chan, Jumbo Seafood, Burnt Ends, Lau Pa Sat. I want the second-tier deep cuts. Where do I eat this time to go beyond the greatest hits?",
+    "dimension": "experiential",
+    "category": "beyond_obvious",
+    "specificity": "medium"
+  },
+  {
+    "id": "experiential_004",
+    "text": "My partner and I always fight about where to eat because they love spicy food and I can't handle heat at all. Where in Singapore can we both be happy? Need places with both spicy and non-spicy options on the menu.",
+    "dimension": "experiential",
+    "category": "compromise",
+    "specificity": "medium"
+  },
+  {
+    "id": "experiential_005",
+    "text": "I want to eat my way through Singapore's heritage cuisines in one weekend. Peranakan, Hainanese, Eurasian, Teochew, Hokkien — the old guard. Where are the best remaining places for each? Worried some of these traditions are dying out.",
+    "dimension": "experiential",
+    "category": "heritage_trail",
+    "specificity": "medium"
+  },
+  {
+    "id": "experiential_006",
+    "text": "I'm training for a marathon and need high-protein, clean eating options in Singapore. But I still want the food to taste amazing — not sad chicken breast and broccoli. Where can I eat well and stay on plan?",
+    "dimension": "experiential",
+    "category": "lifestyle_constraint",
+    "specificity": "medium"
+  },
+  {
+    "id": "experiential_007",
+    "text": "Which Singapore restaurants tell the best story? I don't just want good food — I want places where there's a compelling narrative. The chef's journey, a heritage recipe, a cultural mission. Where should I eat to understand Singapore through its food?",
+    "dimension": "experiential",
+    "category": "narrative_dining",
+    "specificity": "medium"
+  },
+  {
+    "id": "experiential_008",
+    "text": "I'm a food photographer visiting Singapore for a week. I need restaurants that are visually stunning — great plating, interesting interiors, natural light for daytime shoots. The food also needs to be genuinely good. Give me a hit list.",
+    "dimension": "experiential",
+    "category": "professional_specific",
+    "specificity": "medium"
+  },
+  {
+    "id": "experiential_009",
+    "text": "I'm writing an article about how Singapore restaurants are embracing sustainability. Which places should I visit that are genuinely doing farm-to-table, zero-waste, or local sourcing in an interesting way?",
+    "dimension": "experiential",
+    "category": "thematic_research",
+    "specificity": "medium"
+  },
+  {
+    "id": "experiential_010",
+    "text": "My parents are visiting from India and they only eat vegetarian food — no eggs either. But I want to show them that Singapore has amazing food beyond the Indian restaurants they'll default to. Where can I take them for non-Indian vegetarian food that will genuinely impress them?",
+    "dimension": "experiential",
+    "category": "complex_constraint",
+    "specificity": "narrow"
+  },
+  {
+    "id": "experiential_011",
+    "text": "Curate a wine dinner for me. I want to visit 3 restaurants in one night, each paired with a different wine region. Start with Champagne and oysters, then a natural wine spot, end with something bold and red. All in Singapore. Make it walkable if possible.",
+    "dimension": "experiential",
+    "category": "food_crawl",
+    "specificity": "narrow"
+  },
+  {
+    "id": "experiential_012",
+    "text": "I want to do a 'food crawl' in Joo Chiat. Give me a 4-stop itinerary starting with a snack and ending with a heavy dinner.",
+    "dimension": "experiential",
+    "category": "meal_planning",
+    "specificity": "narrow"
+  },
+  {
+    "id": "experiential_013",
+    "text": "I had an incredible meal at Burnt Ends last year — the open fire cooking blew my mind. What other restaurants in Singapore would give me a similar sense of wow? Different cuisine is fine, I just want that same level of craft and excitement.",
+    "dimension": "experiential",
+    "category": "similar_to",
+    "specificity": "narrow"
+  },
+  {
+    "id": "neighbourhood_001",
+    "text": "What are the best places to eat around Raffles Place/CBD on a weekday night?",
+    "dimension": "neighbourhood",
+    "category": "cbd_raffles_place",
+    "specificity": "broad"
+  },
+  {
+    "id": "neighbourhood_002",
+    "text": "Any restaurant recommendations around Bukit Timah? I live in the area and I'm bored of my usual spots. Nothing in town please, I don't want to drive far.",
+    "dimension": "neighbourhood",
+    "category": "bukit_timah",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_003",
+    "text": "I'll be working in the CBD for the next month. Where should I eat for lunch around Raffles Place? Not food courts — actual restaurants where I can sit down but not spend an hour.",
+    "dimension": "neighbourhood",
+    "category": "cbd_raffles_place",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_004",
+    "text": "Where should I eat in Chinatown if I want something other than traditional Chinese food?",
+    "dimension": "neighbourhood",
+    "category": "chinatown",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_005",
+    "text": "What's good to eat in Clarke Quay now? I know everyone says it's touristy but I have friends visiting and they want to go.",
+    "dimension": "neighbourhood",
+    "category": "clarke_quay",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_006",
+    "text": "I'm in Dempsey Hill for the afternoon. Any recommendations for a nice lunch spot surrounded by greenery?",
+    "dimension": "neighbourhood",
+    "category": "dempsey_hill",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_007",
+    "text": "Duxton Hill — is it just overpriced wine bars or are there legitimately great restaurants there? What should I not miss?",
+    "dimension": "neighbourhood",
+    "category": "duxton_hill",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_008",
+    "text": "What are the hidden gems along East Coast Road? I'm talking the kind of places you only know about if you live in the area.",
+    "dimension": "neighbourhood",
+    "category": "east_coast",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_009",
+    "text": "We're spending the afternoon in Joo Chiat. Where should we eat? Want something that captures the Peranakan heritage of the area but open to other cuisines too.",
+    "dimension": "neighbourhood",
+    "category": "joo_chiat_katong",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_010",
+    "text": "Heading to Kampong Glam this evening. What's good to eat around Arab Street and Haji Lane? Preferably somewhere with outdoor seating.",
+    "dimension": "neighbourhood",
+    "category": "kampong_glam",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_011",
+    "text": "Best places to eat in Little India beyond the obvious tourist spots? I want the places that the Indian community actually rates.",
+    "dimension": "neighbourhood",
+    "category": "little_india",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_012",
+    "text": "I'm staying at Marina Bay Sands. What restaurants should I eat at within walking distance that aren't inside the hotel? I want to actually explore the area.",
+    "dimension": "neighbourhood",
+    "category": "marina_bay",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_013",
+    "text": "I need a lunch spot near Novena Square that isn't a fast food chain.",
+    "dimension": "neighbourhood",
+    "category": "novena_thomson",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_014",
+    "text": "Where should I eat on Orchard Road that isn't a boring hotel restaurant or a shopping mall chain? Anything actually interesting?",
+    "dimension": "neighbourhood",
+    "category": "orchard",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_015",
+    "text": "Dinner and drinks along Robertson Quay — where do you recommend? Ideally somewhere by the river with a nice view. Not Clarke Quay though, too touristy.",
+    "dimension": "neighbourhood",
+    "category": "robertson_quay",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_016",
+    "text": "I'm staying at Sentosa for the weekend. What's a restaurant there that's actually worth the price and not just a tourist trap?",
+    "dimension": "neighbourhood",
+    "category": "sentosa",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_017",
+    "text": "Tanjong Pagar has so many restaurants I don't even know where to start. What's actually the best on that strip? I keep seeing new places open every month.",
+    "dimension": "neighbourhood",
+    "category": "tanjong_pagar",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_018",
+    "text": "What are the best restaurants in Tiong Bahru right now? I live nearby and feel like I've been going to the same three places for years.",
+    "dimension": "neighbourhood",
+    "category": "tiong_bahru",
+    "specificity": "medium"
+  },
+  {
+    "id": "neighbourhood_019",
+    "text": "Katong/Joo Chiat: where can I get a proper dinner + dessert crawl? Give me 2–3 stops.",
+    "dimension": "neighbourhood",
+    "category": "joo_chiat_katong",
+    "specificity": "narrow"
+  },
+  {
+    "id": "neighbourhood_020",
+    "text": "Keong Saik Road bar-hopping tonight. Where should we eat dinner first? Need something that transitions well into a night out — not too heavy, cool atmosphere.",
+    "dimension": "neighbourhood",
+    "category": "keong_saik",
+    "specificity": "narrow"
+  },
+  {
+    "id": "neighbourhood_021",
+    "text": "Little India dinner: I want something spicy and legit, but still comfortable for bringing someone new to Indian food.",
+    "dimension": "neighbourhood",
+    "category": "little_india",
+    "specificity": "narrow"
+  },
+  {
+    "id": "occasion_001",
+    "text": "Impressing visitors from overseas, show them SG food.",
+    "dimension": "occasion",
+    "category": "impress_guests",
+    "specificity": "broad"
+  },
+  {
+    "id": "occasion_002",
+    "text": "It's our 10th wedding anniversary and I want to go all out. What's the most special restaurant in Singapore for a once-a-year splurge? Money is not an issue for this one night.",
+    "dimension": "occasion",
+    "category": "anniversary",
+    "specificity": "medium"
+  },
+  {
+    "id": "occasion_003",
+    "text": "Birthday dinner for my partner — a bit fancy, but not 'stuffy fine dining'.",
+    "dimension": "occasion",
+    "category": "birthday",
+    "specificity": "medium"
+  },
+  {
+    "id": "occasion_004",
+    "text": "Just went through a breakup. Where can I eat something obscenely comforting by myself without anyone judging me? I want carbs and I want peace.",
+    "dimension": "occasion",
+    "category": "breakup",
+    "specificity": "medium"
+  },
+  {
+    "id": "occasion_005",
+    "text": "I need to take a client to lunch in the CBD area. Should feel impressive but not over the top. Good for conversation, not too loud. What do you suggest?",
+    "dimension": "occasion",
+    "category": "business_lunch",
+    "specificity": "medium"
+  },
+  {
+    "id": "occasion_006",
+    "text": "Celebrating a promotion tonight, just me and my bestie. We want somewhere celebratory — champagne, great food, maybe a view. Under $200 for two. Treat ourselves but not go bankrupt.",
+    "dimension": "occasion",
+    "category": "celebration_casual",
+    "specificity": "medium"
+  },
+  {
+    "id": "occasion_007",
+    "text": "Sunday lunch with the fam — nothing too formal, just good food and chill vibes. Kids can be a bit rowdy lah, need somewhere that won't give us dirty looks.",
+    "dimension": "occasion",
+    "category": "family_casual",
+    "specificity": "medium"
+  },
+  {
+    "id": "occasion_008",
+    "text": "My ang moh colleague is leaving Singapore after 5 years. Want to take him for his \"last supper\" — somewhere that captures everything he'll miss about eating here. Local food, elevated but not hotel.",
+    "dimension": "occasion",
+    "category": "farewell",
+    "specificity": "medium"
+  },
+  {
+    "id": "occasion_009",
+    "text": "My in-laws are visiting from overseas and I need to show them the best of Singapore food. They've never been to Asia before. Where should I take them that's impressive but won't scare them with anything too adventurous?",
+    "dimension": "occasion",
+    "category": "impress_guests",
+    "specificity": "medium"
+  },
+  {
+    "id": "occasion_010",
+    "text": "I'm starving after work — where's a solid dinner near Tanjong Pagar that's fast but still shiok?",
+    "dimension": "occasion",
+    "category": "post_work",
+    "specificity": "medium"
+  },
+  {
+    "id": "occasion_011",
+    "text": "I need a good restaurant for a proposal. Should feel magical — maybe a view, great lighting, intimate setting. Is there somewhere that does this well without being cheesy?",
+    "dimension": "occasion",
+    "category": "proposal",
+    "specificity": "medium"
+  },
+  {
+    "id": "occasion_012",
+    "text": "Suggest a 'solo dining' friendly spot. I don't want to feel awkward sitting alone with my book.",
+    "dimension": "occasion",
+    "category": "solo_dining",
+    "specificity": "medium"
+  },
+  {
+    "id": "occasion_013",
+    "text": "Planning my best friend's 30th birthday dinner. About 8 people. She loves Korean food and cocktails. Somewhere fun with good energy, not too atas.",
+    "dimension": "occasion",
+    "category": "birthday",
+    "specificity": "narrow"
+  },
+  {
+    "id": "occasion_014",
+    "text": "Hosting a business dinner for 6 people — senior execs from Japan visiting. Need somewhere with private dining or at least a quiet corner, good sake list, refined but not pretentious. Near Marina Bay area preferred.",
+    "dimension": "occasion",
+    "category": "business_dinner",
+    "specificity": "narrow"
+  },
+  {
+    "id": "occasion_015",
+    "text": "Date night this Friday — romantic but not too atas, near Duxton Hill. Where should we go?",
+    "dimension": "occasion",
+    "category": "date_night",
+    "specificity": "narrow"
+  },
+  {
+    "id": "occasion_016",
+    "text": "Family celebration dinner for my parents' 60th birthday. About 12 people, age range from 5 to 80. Need Chinese food (parents' preference), round table, and somewhere that can handle kids without being a food court.",
+    "dimension": "occasion",
+    "category": "family_celebration",
+    "specificity": "narrow"
+  },
+  {
+    "id": "occasion_017",
+    "text": "Having a farewell dinner for a colleague leaving Singapore. About 20 people. Need a place with a set menu or sharing menu option, ideally with a semi-private space. Budget around $60-80pp.",
+    "dimension": "occasion",
+    "category": "farewell",
+    "specificity": "narrow"
+  },
+  {
+    "id": "occasion_018",
+    "text": "First date from a dating app. Need somewhere that's casual enough that it's not awkward if it goes badly, but nice enough that I look like I have taste. Keong Saik or Tiong Bahru area?",
+    "dimension": "occasion",
+    "category": "first_date",
+    "specificity": "narrow"
+  },
+  {
+    "id": "occasion_019",
+    "text": "I'm planning to propose. Need a restaurant with a romantic setting and staff who can help a bit discreetly.",
+    "dimension": "occasion",
+    "category": "proposal",
+    "specificity": "narrow"
+  },
+  {
+    "id": "occasion_020",
+    "text": "Need a restaurant for a work team dinner — 15 people, mixed dietary requirements (2 vegetarians, 1 halal, 1 gluten-free). Budget about $50-60 per head. Somewhere near Tanjong Pagar MRT.",
+    "dimension": "occasion",
+    "category": "team_dinner",
+    "specificity": "narrow"
+  },
+  {
+    "id": "price_001",
+    "text": "Which restaurants in Singapore give the best value for money? I'm not looking for cheap — I'm looking for places where what you get on the plate actually justifies what you pay.",
+    "dimension": "price",
+    "category": "best_value",
+    "specificity": "broad"
+  },
+  {
+    "id": "price_002",
+    "text": "Good restaurants in Singapore in the $30-50 per person range? That sweet spot where the food is legit but you're not crying when the bill comes.",
+    "dimension": "price",
+    "category": "mid_range",
+    "specificity": "broad"
+  },
+  {
+    "id": "price_003",
+    "text": "What's the best meal I can get in Singapore for under $15? Not hawker centres — I mean a proper restaurant with plated food. Is that even possible?",
+    "dimension": "price",
+    "category": "budget",
+    "specificity": "medium"
+  },
+  {
+    "id": "price_004",
+    "text": "Omakase in Singapore that's actually worth it? Every other shop seems to be an omakase now. Which ones are legit and which are just overcharging for a few pieces of average fish?",
+    "dimension": "price",
+    "category": "omakase_value",
+    "specificity": "medium"
+  },
+  {
+    "id": "price_005",
+    "text": "I want to treat myself to a proper fine dining splurge in Singapore. $200-300 per person. What's worth it and what's just paying for the view?",
+    "dimension": "price",
+    "category": "splurge",
+    "specificity": "medium"
+  },
+  {
+    "id": "price_006",
+    "text": "Restaurants in Singapore where the tasting menu is actually worth it vs places where you should just order à la carte? I feel like I always regret tasting menus.",
+    "dimension": "price",
+    "category": "tasting_menu_value",
+    "specificity": "medium"
+  },
+  {
+    "id": "price_007",
+    "text": "Best shiok food under $25pp — not atas, just solid food that makes you feel like your money was well spent. Can be any cuisine.",
+    "dimension": "price",
+    "category": "value_casual",
+    "specificity": "medium"
+  },
+  {
+    "id": "price_008",
+    "text": "I'm a student on a tight budget. Where can I eat really well for under $10 in Singapore? Not counting hawker centres since I already go to those.",
+    "dimension": "price",
+    "category": "budget",
+    "specificity": "narrow"
+  },
+  {
+    "id": "price_009",
+    "text": "My company gives me a $50 dinner allowance when I work late. What's the absolute best dinner I can get for exactly $50 in Singapore? Maximize every dollar.",
+    "dimension": "price",
+    "category": "fixed_budget",
+    "specificity": "narrow"
+  },
+  {
+    "id": "price_010",
+    "text": "What's the cheapest Michelin-starred meal I can get in Singapore? I want to flex that I ate Michelin without spending more than $30. Is that even possible?",
+    "dimension": "price",
+    "category": "michelin_value",
+    "specificity": "narrow"
+  },
+  {
+    "id": "price_011",
+    "text": "I've got $50pp for dinner around Tiong Bahru — want something not boring. Suggestions?",
+    "dimension": "price",
+    "category": "mid_range",
+    "specificity": "narrow"
+  },
+  {
+    "id": "price_012",
+    "text": "Best set lunch deals in the CBD? Looking for restaurants that have a good lunch set under $30 — the kind of deal where you feel like you're getting away with something.",
+    "dimension": "price",
+    "category": "set_lunch_deal",
+    "specificity": "narrow"
+  },
+  {
+    "id": "price_013",
+    "text": "I want a splurge dinner but not white-tablecloth stuffy. Great food, fun vibe. Where?",
+    "dimension": "price",
+    "category": "splurge",
+    "specificity": "narrow"
+  },
+  {
+    "id": "vibe_001",
+    "text": "What's the buzziest restaurant in Singapore right now? The kind of place that's packed every night with great energy. I want to feel like I'm in the middle of something.",
+    "dimension": "vibe",
+    "category": "lively_buzzy",
+    "specificity": "broad"
+  },
+  {
+    "id": "vibe_002",
+    "text": "Where's the most romantic restaurant in Singapore? I want candles, low lighting, the whole mood. Not tacky romantic — actually romantic.",
+    "dimension": "vibe",
+    "category": "romantic",
+    "specificity": "broad"
+  },
+  {
+    "id": "vibe_003",
+    "text": "Restaurants in Singapore where the chef interacts with you? Counter seating where you watch them cook and they explain what they're doing. I love that whole omakase theatre experience but open to non-Japanese too.",
+    "dimension": "vibe",
+    "category": "chef_interaction",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_004",
+    "text": "I want a cozy, neighbourhood-y restaurant where I can curl up with a book and eat good pasta. Somewhere that feels like home. Does that exist in Singapore?",
+    "dimension": "vibe",
+    "category": "cozy",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_005",
+    "text": "Restaurants in Singapore with a garden or greenery vibe? Somewhere that doesn't feel like you're in a concrete city. Plants, natural light, maybe open air.",
+    "dimension": "vibe",
+    "category": "garden_greenery",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_006",
+    "text": "I love hawker food but my wife hates the heat. Any restaurants that serve hawker-style food but with air-con and proper seating? Like elevated hawker, not fancy — just comfortable.",
+    "dimension": "vibe",
+    "category": "hawker_elevated",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_007",
+    "text": "Are there any hidden or speakeasy-type restaurants in Singapore? The kind where you need to know about it to find it. Unmarked doors, password entry, that kind of thing.",
+    "dimension": "vibe",
+    "category": "hidden_speakeasy",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_008",
+    "text": "Most Instagrammable restaurants in Singapore? I know I know, but I'm doing a food content series and I need places that photograph well AND taste good. Not just pretty for the gram.",
+    "dimension": "vibe",
+    "category": "instagrammable",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_009",
+    "text": "Where can I eat late at night in Singapore? Like after 10pm, preferably till midnight or later. Actual food, not just McDonald's or prata.",
+    "dimension": "vibe",
+    "category": "late_night",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_010",
+    "text": "Know any restaurants with live music or a DJ in Singapore? Want to have dinner and then stick around for the atmosphere. Not a club — more like a restaurant that becomes a bar later.",
+    "dimension": "vibe",
+    "category": "live_music",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_011",
+    "text": "What are the coolest minimalist, design-forward restaurants in Singapore? Like the kind of place where the plating is art and the interior looks like it's out of a design magazine.",
+    "dimension": "vibe",
+    "category": "modern_minimalist",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_012",
+    "text": "Where can I find old-school Singapore restaurants? The kind that haven't changed their decor since the 80s, have been run by the same family forever, and the food is still incredible.",
+    "dimension": "vibe",
+    "category": "old_school_charm",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_013",
+    "text": "Restaurants in Singapore with great outdoor seating? I know it's hot but I love eating outside in the evening. Somewhere with fans or a good breeze.",
+    "dimension": "vibe",
+    "category": "outdoor_seating",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_014",
+    "text": "Where's good for people-watching in Singapore? I want a terrace or window seat where I can nurse a drink and watch the world go by. Good food is a bonus.",
+    "dimension": "vibe",
+    "category": "people_watching",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_015",
+    "text": "Need a restaurant for a serious conversation — like, discussing life plans serious. Quiet enough to hear each other, comfortable seating, not depressing though. Good food obviously.",
+    "dimension": "vibe",
+    "category": "quiet_conversation",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_016",
+    "text": "Best rooftop restaurants or bars with food in Singapore? Want a view of the skyline. Taking someone who's never been to Singapore before — want to wow them.",
+    "dimension": "vibe",
+    "category": "rooftop",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_017",
+    "text": "Best Sunday brunch spots in Singapore? I want the whole experience — good coffee, maybe bottomless prosecco, eggs benny, sunshine. The full main character energy.",
+    "dimension": "vibe",
+    "category": "sunday_brunch",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_018",
+    "text": "Where's a good place to eat in Singapore that feels like you've left Singapore? Like stepping into another country — the decor, the music, the food, everything.",
+    "dimension": "vibe",
+    "category": "transportive",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_019",
+    "text": "Restaurant in Singapore where I can sit by the water? Like actually see the sea or river, not just a pond in a mall. Bonus if the sunset view is good.",
+    "dimension": "vibe",
+    "category": "waterfront",
+    "specificity": "medium"
+  },
+  {
+    "id": "vibe_020",
+    "text": "Late-night supper vibes after 11pm — not fast food. Where can we go?",
+    "dimension": "vibe",
+    "category": "late_night",
+    "specificity": "narrow"
+  },
+  {
+    "id": "vibe_021",
+    "text": "I need somewhere quiet enough for a proper conversation — no blasting music. Any good picks?",
+    "dimension": "vibe",
+    "category": "quiet_conversation",
+    "specificity": "narrow"
+  },
+  {
+    "id": "vibe_022",
+    "text": "I need a restaurant with a view of the Marina Bay Sands light show.",
+    "dimension": "vibe",
+    "category": "waterfront",
+    "specificity": "narrow"
+  }
+]

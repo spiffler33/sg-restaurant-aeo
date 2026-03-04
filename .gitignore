@@ -1,0 +1,37 @@
+# Environment
+.env
+.venv/
+venv/
+
+# Data (raw responses are large and may contain API-specific metadata)
+data/raw/
+*.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# uv
+.python-version
+
+# Claude Code local settings
+.claude/
