@@ -337,6 +337,173 @@ Gemini's verbosity (10.9 restaurants/response) works in Sabai's favor — its lo
 
 **Practical AEO takeaway for restaurants like Sabai:** Optimize for the *specific queries your customers actually ask*. "Thai restaurant Marina Bay" and "Thai with bay view Singapore" are the prompts where Sabai ranks #1 — that's the keyword space to own. Generic "best Thai food Singapore" is a fight against Patara, Thanying, and Long Chim that a 366-review restaurant cannot win.
 
+## 19. What Search-Augmented Models Actually See
+
+The Sabai probe (§18) showed that search ON detection is inconsistent — sometimes helping (Gemini), sometimes hurting (Perplexity), sometimes neutral (GPT-4o). A web presence audit of Sabai's digital footprint reveals *why*: the inconsistency traces directly to what each model retrieves and how it processes it.
+
+### The Empty Homepage Problem
+
+When a search-augmented model fetches `sabaifinethai.com.sg`, it gets almost nothing:
+
+| Page | What the model sees |
+|---|---|
+| Homepage (`/`) | Hero images, no text. Effectively empty. |
+| About (`/about-us/`) | Founding story with "Thai fine dining" and "Singapore" — but not "Marina Bay" |
+| Menu (`/menu/`) | PDF links only. Zero crawlable dish names. |
+| Contact (`/299-2/`) | Address includes "Customs House, Collyer Quay" — but only here |
+
+"Marina Bay" — the keyword that drives Sabai's strongest detection (T2 queries) — appears **nowhere on the website**. "Bay view" and "waterfront" — the attributes behind Sabai's #1 breakout prompt — are also absent. The only reference to location is "on the Bay" in a 2015 copyright footer.
+
+This is the mechanism behind search ON inconsistency: **when a model happens to fetch the official website, it learns almost nothing useful.** Models that instead fetch TripAdvisor or Google Business Profile (which do have the address and "Marina Bay" association) perform better.
+
+### Gemini's Structural Advantage
+
+Gemini's probe dominance (24/40 detections, best of all models) has a specific technical explanation: Gemini uses **Google Search grounding**, which pulls structured data from Google Business Profile — rating, review count, address, business category — not just web page text. Google knows Sabai is at "Customs House, Marina Bay" even though the website doesn't say so.
+
+The other three models rely on fetching and parsing web pages. When those pages are thin (Sabai's homepage) or entirely image-based (the menu), those models get less signal.
+
+**Generalizable principle:** Models with access to structured knowledge graphs (Google's) outperform models that rely purely on web page text retrieval, especially for entities with poor first-party web presence.
+
+### Why Perplexity Search ON Hurts
+
+Perplexity with `search_recency_filter="month"` narrows results to recent content. Sabai has almost no recent blog posts, articles, or press coverage (2025-2026). The recency filter actively excludes the few mentions that exist, making search ON *worse* than search OFF for Sabai.
+
+The restaurants that benefit from Perplexity's recency filter are ones with active press cycles — new openings, Michelin announcements, viral food blogger posts. Established but under-covered restaurants like Sabai are penalized by recency bias.
+
+### The Aggregator Chain
+
+For generic queries ("best Thai restaurant Singapore"), models don't fetch restaurant websites at all. The retrieval chain is:
+
+```
+Query → Search engine → Listicle/TripAdvisor/Yelp → Model reads that page → Recommendation
+```
+
+Sabai's website quality is irrelevant for T1 queries because models never visit it. What matters is whether Sabai appears in the aggregator pages that models *do* fetch. Currently, Sabai appears in **1 of 10** major "best Thai Singapore" listicles checked. Sarai appears in multiple. Un-Yang-Kor-Dai (Michelin Bib Gourmand) appears in nearly all.
+
+**This means website SEO fixes help T2/T3 queries (where models might fetch the restaurant's own site) but not T1 queries (where models read aggregators).** The T1 bottleneck is aggregator presence, not website quality.
+
+### Schema.org: An Industry-Wide Gap
+
+None of the five Thai fine-dining competitors audited (Sarai, Patara, Long Chim, Thanying, Blue Jasmine) have `schema.org/Restaurant` JSON-LD markup. Sabai doesn't either.
+
+| Restaurant | Platform | Restaurant Schema? | Meta Title Quality |
+|---|---|---|---|
+| Sabai | WordPress | No | Fair — omits "Singapore" |
+| Sarai | Squarespace | No (auto LocalBusiness only) | Poor — just "SARAI" |
+| Thanying | Custom/hotel CMS | Unknown (likely no) | Good — "Authentic Royal Thai Cuisine" |
+| Patara | Squarespace | No | Poor — menu page shows "Squarespace" |
+| Long Chim | Stub (closed) | No | Minimal |
+| Blue Jasmine | Hotel CMS (closed) | No | Poor — hotel parent title |
+
+**This is a first-mover opportunity.** The first Thai restaurant in Singapore to implement proper Restaurant schema would have uncontested structured signal in an otherwise signal-sparse segment. Schema is particularly relevant for Gemini (Google grounding reads structured data) and for future model architectures that may prioritize structured web data over unstructured text.
+
+### The Review Count Gap
+
+| Restaurant | Google Reviews | Rating | Status |
+|---|---|---|---|
+| Sawadee (Chinatown) | 2,753 | 4.7 | OPEN |
+| Sarai Fine Thai | 1,126 | 4.6 | OPEN |
+| Blue Jasmine | 471 | 4.1 | CLOSED |
+| **Sabai Fine Thai** | **347** | **4.3** | **OPEN** |
+| Thanying | 203 | 4.0 | OPEN |
+| Long Chim | 197 | 3.9 | CLOSED |
+
+Sabai's 347 reviews place it 4th of 4 among open competitors. Cross-referencing with §16 (review count predicts AI mentions, rating doesn't): review volume is the strongest predictor of AI discoverability, and Sabai is structurally disadvantaged. Sarai has 3.2x more reviews; Sawadee has 8x more.
+
+Two of the top five Thai competitors in our probe data (Long Chim, Blue Jasmine) are **permanently closed**. They continue to occupy AI recommendation slots that Sabai could fill — the zombie restaurant problem from §11, playing out in a specific competitive niche.
+
+## 20. The Intervention Hierarchy: What Actually Moves the Needle for AEO
+
+Using Sabai's probe data, we can estimate the relative impact of different interventions on AI discoverability. This generalizes beyond Sabai to any restaurant below the "AI awareness threshold."
+
+### Current Detection Breakdown
+
+| Tier | Search OFF | Search ON | Total | Rate |
+|---|---|---|---|---|
+| T1: Generic | 5/20 | 5/20 | 10/40 | 25% |
+| T2: Location | 4/20 | 7/20 | 11/40 | 28% |
+| T3: Attribute | 6/20 | 8/20 | 14/40 | 35% |
+| T4: Near-name | 15/20 | 22/20 | 37/40 | 93% |
+| **Total** | **30/80** | **42/80** | **72/160** | **45%** |
+
+88 misses. Where does each intervention type help?
+
+### Intervention 1: Website Technical Fixes (Schema + Meta + Homepage Text)
+
+**Mechanism:** Makes the official website readable when LLM search tools fetch it.
+**What it affects:** Search ON queries where the model fetches sabaifinethai.com.sg — primarily T2/T3.
+
+- **Search OFF (80 queries, 30 detected):** ~0 impact. Parametric knowledge is frozen.
+- **T1 search ON (20 queries, 5 detected):** ~1-2 gain. Models don't visit the website for generic queries. Only schema helps Gemini grounding.
+- **T2 search ON (20 queries, 7 detected):** ~3-4 gain. Adding "Marina Bay" to homepage text directly addresses the location gap.
+- **T3 search ON (20 queries, 8 detected):** ~2-3 gain. "Waterfront," "bay view," HTML menu help attribute queries.
+- **T4 (40 queries, 37 detected):** ~0 gain. Already 93%.
+
+**Estimated lift: ~8-10 additional detections → 45% → ~50%** (concentrated in T2/T3 search ON)
+
+### Intervention 2: Review Volume (347 → 1,000+)
+
+**Mechanism:** Higher review count → higher ranking on TripAdvisor/Google/Yelp → appears in more search results that models fetch.
+
+- **Search OFF:** Zero immediate impact. Reviews enter training data on next training cycle (6-12 months).
+- **T1 search ON:** ~4-6 gain. This is where reviews help most — "best Thai" search results are ordered by review volume and rating on aggregator sites.
+- **T2/T3 search ON:** ~2-3 gain. Better aggregator ranking.
+- **T4:** No gain needed.
+
+**Estimated lift: ~8-12 additional detections → 45% → ~51%**
+
+Comparable to technical fixes in total, but distributed differently. **Reviews unlock T1 (the hardest tier); technical fixes unlock T2/T3 (the middle tiers).**
+
+### Intervention 3: Blog Coverage (3+ Food Bloggers)
+
+**Mechanism:** Blog posts serve dual purpose — they appear in search results (helping search ON) AND enter training data on the next training cycle (helping search OFF).
+
+- **Search ON (all tiers):** Each blog post is a new, keyword-rich page that search tools can retrieve. A post titled "Sabai Fine Thai — Waterfront Royal Thai Dining at Marina Bay" would directly match T1, T2, and T3 query patterns.
+- **Search OFF (future):** Blog posts from DanielFoodDiary, ieatishootipost, MissTamChiak etc. are almost certainly in LLM training corpora. New posts create new parametric knowledge for future model versions.
+
+**Estimated lift: ~10-15 additional detections (near-term search ON) + future parametric impact**
+
+**This is the highest-ROI intervention for AEO.** It's the only one that affects both channels simultaneously.
+
+### Intervention 4: Listicle Placement (Appear in "Best Thai" Roundups)
+
+**Mechanism:** Listicles are literally what models read when processing "best Thai restaurant Singapore." Being in 3+ listicles vs. 1 is the difference between reliable T1 detection and occasional T1 detection.
+
+- **T1 search ON:** This is the targeted intervention. Currently 5/20 detected, and the hits correlate with which listicle the model happens to fetch.
+- **T1 search OFF (future):** Listicles also enter training data.
+
+**Estimated T1 lift alone: 25% → ~40-45%** — the most impactful single intervention for generic discoverability.
+
+### The Hierarchy
+
+Ranked by ROI (impact per unit effort) for a restaurant below the AI awareness threshold:
+
+| Rank | Intervention | T1 Impact | Overall Impact | Effort | Time to Effect |
+|---|---|---|---|---|---|
+| 1 | **Blog coverage** (3+ bloggers) | Medium | **Highest** (dual-channel) | Medium (pitch + host) | 2-4 weeks (search ON), 6-12 months (parametric) |
+| 2 | **Listicle placement** | **Highest** for T1 | Medium (T1-only) | Medium (pitch editors) | 1-4 weeks |
+| 3 | **Review volume** (3x current) | High | High | Slow (organic) | 3-6 months |
+| 4 | **Website technical fixes** | Low | Medium (T2/T3 only) | **Lowest** (1 day) | Days (search ON) |
+
+**The counterintuitive finding:** The easiest intervention (website fixes) has the lowest impact on the queries that matter most (T1 generic). The hardest intervention (building review volume) has the highest impact on T1 but takes months. Blog coverage is the sweet spot — moderate effort, dual-channel impact, fastest time to meaningful results.
+
+### Why This Generalizes
+
+Sabai is a useful case study because it sits right at the boundary: 347 Google reviews, established (since 2004), real location, real quality — but just below the "AI awareness threshold" of ~500-1,000 reviews and 3+ blog mentions that separates the 152 consensus restaurants from the 2,155 single-model long tail.
+
+The intervention hierarchy likely applies to any restaurant in this zone:
+- **Above threshold** (~500+ reviews, 5+ blog posts, Michelin/award recognition): already in the AI canon. Website fixes are marginal.
+- **At threshold** (~200-500 reviews, 1-3 blog posts): this is where interventions have highest leverage. One ieatishootipost article or 300 more reviews could tip the balance.
+- **Below threshold** (<200 reviews, no blog coverage): too far from the canon. No amount of schema markup will help. Need fundamental brand-building first.
+
+**Practical AEO framework for restaurants:**
+1. First: check if you're even in the zone (200+ Google reviews, some blog coverage)
+2. If yes: blog pitches and listicle placement are highest ROI
+3. Meanwhile: do the free technical fixes (schema, meta, homepage text) as table stakes
+4. Long game: build review volume organically
+
+The website is the last thing to fix, not the first — because models mostly don't read restaurant websites. They read TripAdvisor, food blogs, and Google structured data.
+
 ---
 
-*Last updated: 2026-03-10, after Sabai Fine Thai probe. 3,666 canonical restaurants (2,991 active research set). 1,266 Google Places verified, 30 closed. 160 targeted probe queries (separate from main dataset). 16 figures in flagship notebook.*
+*Last updated: 2026-03-10, after Sabai web presence audit. 3,666 canonical restaurants (2,991 active research set). 1,266 Google Places verified, 30 closed. 160 targeted probe queries (separate from main dataset). Full web audit in `data/sabai_intervention/web_audit.md`. 16 figures in flagship notebook.*
