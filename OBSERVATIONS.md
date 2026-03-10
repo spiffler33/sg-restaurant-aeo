@@ -1,6 +1,6 @@
 # Observations: How LLMs Think About Restaurants
 
-A running log of what the data reveals about LLM recommendation behavior. These are empirical observations from 1,120 queries across 4 models (GPT-4o, Claude Sonnet, Gemini 2.5 Flash, Perplexity Sonar) x 140 prompts x search ON/OFF.
+A running log of what the data reveals about LLM recommendation behavior. These are empirical observations from 1,690 queries across 4 models (GPT-4o, Claude Sonnet, Gemini 2.5 Flash, Perplexity Sonar) x 140 prompts x search ON/OFF, plus 570 stability test queries.
 
 ---
 
@@ -101,18 +101,18 @@ Phase 2b collapsed **3,332 raw name strings → 3,038 canonical restaurants** (2
 
 ## 9. The Long Tail Is Enormous
 
-Post-resolution: **148 restaurants (4.9%)** are mentioned by all 4 models, while **2,175 (71.6%)** are mentioned by only one. Gemini alone "knows" 1,620 canonical restaurants — more than the other three models combined (if deduplicated).
+Post all entity resolution stages (automated + human triage + place_id dedup): **152 restaurants (5.1%)** are mentioned by all 4 models, while **2,155 (72.0%)** are mentioned by only one. Gemini alone "knows" 1,591 canonical restaurants — more than the other three models combined (if deduplicated).
 
-| Model | Unique Restaurants Known | % of All 3,038 |
+| Model | Unique Restaurants Known | % of All 2,991 |
 |---|---|---|
-| Gemini 2.5 Flash | 1,620 | 53.3% |
-| Claude Sonnet | 1,126 | 37.1% |
-| Perplexity Sonar | 1,052 | 34.6% |
-| GPT-4o | 632 | 20.8% |
+| Gemini 2.5 Flash | 1,591 | 53.2% |
+| Claude Sonnet | 1,102 | 36.8% |
+| Perplexity Sonar | 1,037 | 34.7% |
+| GPT-4o | 616 | 20.6% |
 
 **The discovery gap is 2.6x** — Gemini surfaces 2.6x more unique restaurants than GPT-4o. For a lesser-known restaurant, being in Gemini's knowledge base is table stakes; being in GPT-4o's curated list is the prize.
 
-The 148 "consensus restaurants" (known to all 4 models) likely represent the ~5% of Singapore's dining scene that has crossed the AI awareness threshold — sufficient English-language media coverage, review density, and brand recognition to appear in every model's training data.
+The 152 "consensus restaurants" (known to all 4 models) likely represent the ~5% of Singapore's dining scene that has crossed the AI awareness threshold — sufficient English-language media coverage, review density, and brand recognition to appear in every model's training data.
 
 ## 10. Recommendation Stability: Most Suggestions Are Coin Flips
 
@@ -178,9 +178,9 @@ The 4 core restaurants are genuine Claude-knowledge anchors for this prompt. The
 
 ## 11. Ground Truth: LLMs Recommend Dead Restaurants
 
-Phase 3a matched canonical restaurants against Google Places and flagged business status. Human triage of the top 125 (by mention count) confirmed **32 closed restaurants** in our verified set — 23 permanently closed, 9 temporarily.
+Phase 3a matched canonical restaurants against Google Places and flagged business status. After human triage and corrections (including the Komala's multi-branch fix in §15), the verified set contains **30 closed restaurants** — 23 permanently closed, 7 temporarily.
 
-These aren't obscure picks. **14 of the 32 closed restaurants are mentioned by all 4 models**, and they account for **446 total mentions** across the dataset. Some highlights:
+These aren't obscure picks. **13 of the 30 closed restaurants are mentioned by all 4 models**, and closed restaurants account for **506 total mentions** across the dataset. Among the top 100 most-mentioned verified restaurants, **13% are zombies**. Some highlights:
 
 | Restaurant | Mentions | Models | Status | Notes |
 |---|---|---|---|---|
@@ -220,7 +220,7 @@ The triage process discovered **10 additional entity resolution merges** that Ph
 | Wild Rocket → Relish by Wild Rocket | Restaurant rebranded |
 | Komala Vilas → Komala's | Completely different string after shortening |
 
-Combined with the 2 explicit duplicate merges (Bincho/Bincho at Hua Bee, Euphoria/Restaurant Euphoria), the triage collapsed 12 duplicate canonical entries. Total entity resolution merges across the project: **306** (294 automated + 12 human triage).
+Combined with the 2 explicit duplicate merges (Bincho/Bincho at Hua Bee, Euphoria/Restaurant Euphoria), the triage collapsed 12 duplicate canonical entries. Total entity resolution merges at this stage: **306** (294 automated + 12 human triage). This was later increased to **339** after the place_id dedup pass (see §14).
 
 **The pattern:** Automated fuzzy matching handles ~96% of merges. The remaining ~4% require domain knowledge — knowing that a restaurant rebranded, that locals use a shortened name, or that "Bar X" and "X" are the same place.
 
@@ -252,6 +252,30 @@ The chain is very much alive. One specific branch (the original Komala Vilas loc
 
 **General lesson:** For chain restaurants, match-score ranking should prefer OPERATIONAL entries over closed ones, regardless of name similarity score. A closed branch of an open chain is not a zombie restaurant.
 
+## 16. Fame Beats Quality: Review Volume Predicts AI Mentions, Rating Doesn't
+
+Among 1,235 operational, verified restaurants, Google **rating** has essentially zero correlation with AI mention frequency (Spearman r = -0.070, p = 0.015). The sign is actually slightly *negative* — higher-rated restaurants are, if anything, marginally *less* likely to be heavily mentioned.
+
+Google **review count** (log-transformed), however, has a significant positive correlation (Spearman r = 0.279, p < 10^-23). Review volume is a proxy for online presence, media coverage, and brand awareness — the signals that actually get into LLM training data.
+
+**The practical takeaway:** A 4.1-star restaurant with 10,000 reviews will outperform a 4.8-star restaurant with 200 reviews in the AI recommendation game. LLMs don't read ratings — they absorb the *volume* of discussion about a place. This aligns with the AEO insight that visibility (being talked about) matters more than quality (being rated highly).
+
+## 17. Search ON vs OFF: Only 24% Overlap
+
+The restaurant sets recommended with search enabled vs disabled diverge dramatically. Of the 2,991 restaurants in the active research set:
+
+| Category | Count | % |
+|---|---|---|
+| Both modes | 720 | 24.1% |
+| Search ON only | 1,351 | 45.2% |
+| Search OFF only | 920 | 30.8% |
+
+Search ON surfaces **1,351 restaurants** (45% of the total) that never appear without search — likely newer openings, recently reviewed places, or establishments with strong current web presence but insufficient historical coverage to be in parametric memory.
+
+Conversely, **920 restaurants** appear only with search OFF. These may be "training data artifacts" — places with historical coverage that don't rank well in current search results (possibly because they've become less prominent, or because search results favor recency).
+
+The 720 "both modes" restaurants are the most robust recommendations: present in both the model's frozen knowledge and current web results. This ~24% overlap figure is a headline finding — it means that toggling one parameter (web search) changes three-quarters of the recommendation set.
+
 ---
 
-*Last updated: 2026-03-10, after Komala's multi-branch fix. 3,666 canonical restaurants (2,991 active research set). Phase 4 flagship notebook complete.*
+*Last updated: 2026-03-10, after Phase 4 flagship notebook and README rewrite. 3,666 canonical restaurants (2,991 active research set). 1,266 Google Places verified, 30 closed. 16 figures in flagship notebook.*

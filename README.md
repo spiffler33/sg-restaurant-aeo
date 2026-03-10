@@ -1,6 +1,6 @@
 # What Does AI Think About Singapore Restaurants?
 
-**A systematic study of how large language models recommend restaurants — and what they get wrong.**
+**We asked 4 AI models 1,690 questions about where to eat in Singapore. Here's what we found.**
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -10,29 +10,76 @@
 
 Ask ChatGPT, Claude, Gemini, or Perplexity: *"Where should I eat in Singapore?"*
 
-You'll get a confident, well-written answer. But is it **good**? Does it match what locals actually recommend? Does it surface the Michelin-starred spots or the hidden hawker gems? Does it have a Western cuisine bias? A tourist trap bias? A recency problem?
+You'll get a confident, well-written answer. But is it **good**? Does it match what locals actually recommend? Does it surface the Michelin-starred spots or the hidden hawker gems? And if you ask the same question twice, do you even get the same answer?
 
-**Nobody has systematically studied this. Until now.**
+We ran this experiment systematically — 140 prompts, 4 models, search on and off, 1,690 total queries — and ground-truthed the results against Google Places. The full analysis is in [the notebook](notebooks/01_exploratory.ipynb). Below are the headlines.
 
-This project queries 4 major LLMs with 100+ carefully designed prompts about Singapore restaurants, parses every recommendation into structured data, and analyzes what patterns emerge. It's open-source research into **Answer Engine Optimization (AEO)** — a field where [companies are raising at $1B+ valuations](https://www.profound.co), but where almost no public, reproducible research exists.
+## Key Findings
 
-## Why This Matters
+### 1. The AI Canon: Only 5% consensus, 72% known to just one model
 
-LLMs are becoming the **default discovery layer** for restaurants, travel, and local businesses. When someone asks an AI assistant for restaurant recommendations, that response shapes real-world foot traffic, revenue, and reputation.
+Ask all four models the same 140 questions and you'd expect broad agreement. Instead, only **152 restaurants (5.1%)** are recommended by all four models. Meanwhile, **2,155 restaurants (72%)** are mentioned by just a single model. The AI "restaurant canon" is shockingly small — and the long tail is enormous.
 
-Yet we have no idea:
-- **What signals drive LLM recommendations?** Michelin stars? Google reviews? Media coverage? SEO?
-- **Do different models agree?** Or does each AI have its own "taste"?
-- **What's missing?** Which beloved local spots are invisible to AI?
-- **How stale are the recommendations?** Can AI find restaurants that opened this year?
-- **Is there bias?** Toward Western cuisine? Tourist areas? Higher price points?
+The consensus set reads like a Michelin guide greatest hits: Odette, Burnt Ends, Candlenut, Lau Pa Sat, Hawker Chan. If all four models agree on you, you've crossed a media-coverage threshold that most restaurants never will.
 
-This project builds the dataset and analysis to answer these questions — starting with Singapore as a well-scoped, data-rich test case.
+![Model coverage distribution](assets/charts/model_coverage.png)
+
+### 2. Model Personalities: Gemini surfaces 2.6x more restaurants than GPT-4o
+
+Each model has a distinct "personality." Gemini casts the widest net — **1,591 unique restaurants** across the main sweep — while GPT-4o is the most selective at **616**. Claude and Perplexity land in between.
+
+This isn't just verbosity. Gemini averages 10.9 restaurants per response vs GPT-4o's 5.6. If you're a lesser-known restaurant, Gemini is your best shot at AI visibility. If you're in GPT-4o's curated shortlist, each mention carries more weight.
+
+![Per-model restaurant knowledge breadth](assets/charts/model_breadth.png)
+
+### 3. The Zombie Restaurant Problem: AI confidently recommends closed restaurants
+
+Of the ~1,266 restaurants we verified against Google Places, **30 are permanently or temporarily closed** — and AI keeps recommending them with full confidence. Among the top 100 most-mentioned verified restaurants, **13% are zombies**.
+
+These aren't obscure picks. Open Farm Community (44 mentions, all 4 models), Corner House (33 mentions, Michelin-starred), Lolla, Esora, Hashida Sushi — all closed, all still confidently recommended. This is the clearest evidence that LLM training data is stale for local business recommendations.
+
+![Zombie restaurant status](assets/charts/zombie_status.png)
+
+### 4. Recommendation Instability: ~75% of picks differ between identical queries
+
+Run the same prompt through the same model five times and you'd expect similar answers. Instead, the mean pairwise Jaccard similarity is just **0.256** — roughly 3 out of 4 restaurant picks change between runs.
+
+**79.5% of restaurant appearances are stochastic** (showing up in 2 or fewer out of 5 runs). Only 12.7% are "core" recommendations that appear reliably. GPT-4o is the most stable (Jaccard 0.317); Gemini the least (0.224). Any AEO study that queries each model only once is measuring signal plus substantial noise.
+
+![Jaccard stability distribution](assets/charts/jaccard_stability.png)
+
+### 5. Search Changes Everything: Only 24% overlap between search ON and OFF
+
+When we toggle web search on vs off, the restaurant sets diverge dramatically. Only **720 restaurants (24%)** appear in both modes. Search ON surfaces **1,351 restaurants** that never appear without search — likely newer openings or places with recent press coverage absent from parametric memory.
+
+This is the strongest evidence of training data staleness, and the strongest argument for search-augmented recommendations. Search OFF gives you the model's "frozen knowledge"; Search ON gives you something closer to current reality.
+
+![Search ON vs OFF overlap](assets/charts/search_overlap.png)
+
+### 6. Fame Beats Quality: Review volume predicts AI mentions, rating doesn't
+
+What predicts whether a restaurant gets recommended? Google rating has essentially **zero correlation** with AI mention frequency (Spearman r = -0.070). But Google review *count* has a significant positive correlation (Spearman r = 0.279, p < 10^-23).
+
+In other words: it's not how *good* your reviews are — it's how *many* you have. Review volume is a proxy for online presence and media coverage, which is what actually gets into training data. A 4.1-star restaurant with 10,000 reviews beats a 4.8-star restaurant with 200 reviews in the AI recommendation game.
+
+![Review count vs AI mentions](assets/charts/reviews_vs_mentions.png)
+
+## Dataset at a Glance
+
+| Metric | Value |
+|--------|-------|
+| Total queries | 1,690 (1,120 main sweep + 570 stability test) |
+| Models | GPT-4o, Claude Sonnet, Gemini 2.5 Flash, Perplexity Sonar |
+| Prompts | 140 across 8 dimensions |
+| Total restaurant mentions | 12,256 (100% linked to canonical entities) |
+| Canonical restaurants (active) | 2,991 |
+| Google Places verified | 1,266 |
+| Entity resolution merges | 339 (automated + human + place_id) |
 
 ## Methodology
 
 ### 1. Prompt Library
-We designed 140 discovery prompts spanning 8 dimensions, consolidated from 5 LLM brainstorming sessions (Claude, ChatGPT, Gemini, Grok, Perplexity):
+We designed **140 discovery prompts** spanning 8 dimensions, consolidated from 5 LLM brainstorming sessions (Claude, ChatGPT, Gemini, Grok, Perplexity):
 
 | Dimension | Count | Examples |
 |-----------|-------|----------|
@@ -48,33 +95,21 @@ We designed 140 discovery prompts spanning 8 dimensions, consolidated from 5 LLM
 Each prompt is tagged with specificity level (broad/medium/narrow) for controlled variation.
 
 ### 2. Multi-Model Querying
-Every prompt is sent to **4 models**, each queried twice (search enabled and disabled where supported):
+Every prompt is sent to **4 models**, each queried twice (search enabled and disabled):
 
-- **OpenAI GPT-4o** — parametric + browsing
-- **Anthropic Claude** — parametric only
-- **Google Gemini 1.5 Pro** — parametric + grounding
-- **Perplexity Sonar** — always search-augmented
+- **OpenAI GPT-4o** — Responses API with `web_search_preview`
+- **Anthropic Claude Sonnet** — `web_search_20250305` server tool
+- **Google Gemini 2.5 Flash** — `google_search` grounding
+- **Perplexity Sonar** — always search-augmented (with `search_recency_filter`)
 
 ### 3. Structured Extraction
-Raw responses are parsed into structured data using a dedicated extraction pipeline. For each restaurant mentioned, we capture:
-- Name and rank position
-- Neighbourhood, cuisine tags, vibe tags
-- Price indicator and sentiment
-- Whether it's a primary recommendation or just mentioned in passing
+Raw responses are parsed into structured data using Claude Haiku 4.5 as an extraction model. For each restaurant mentioned, we capture name, rank position, neighbourhood, cuisine tags, vibe tags, price indicator, and sentiment.
 
-### 4. Analysis
-We compare AI recommendations against ground truth:
-- **Google Maps** ratings and review counts
-- **Human panel** of 15-20 Singapore residents
-- **Recency tests** with restaurants opened after model training cutoffs
+### 4. Entity Resolution
+3,332 raw name strings are collapsed into **2,991 canonical restaurants** through three automated stages (exact normalized, base name grouping, fuzzy matching with shared-word penalty) plus human triage and Google place_id deduplication — **339 total merges**.
 
-## Key Research Questions
-
-1. Which restaurants do **all models agree** on? Which are model-specific?
-2. What **signals predict** whether a restaurant gets recommended?
-3. How do **parametric vs. search-augmented** recommendations differ?
-4. Is there measurable **bias** toward tourist spots, Western cuisine, or high prices?
-5. What do **locals love** that AI completely misses?
+### 5. Ground Truth
+Canonical restaurants are matched against the **Google Places API** (Text Search) and verified by human triage. Business status (operational vs closed) serves as the primary ground truth signal, with rating and review count as secondary signals.
 
 ## Quick Start
 
@@ -104,14 +139,20 @@ cp .env.example .env
 ### Run a Query Sweep
 
 ```bash
-# Query all models with the full prompt library
-python -m src.query_runner
+# Test run: 5 prompts x 4 models
+python scripts/test_run.py
 
-# Parse responses into structured data
-python -m src.response_parser
+# Full sweep: 140 prompts x 4 models x search OFF
+python scripts/full_sweep.py
 
-# Launch the dashboard
-streamlit run dashboard/app.py
+# Full sweep: 140 prompts x 4 models x search ON
+python scripts/search_on_sweep.py
+
+# Parse all responses into structured data
+python scripts/parse_responses.py
+
+# Entity resolution
+python scripts/resolve_entities.py
 ```
 
 ## Project Structure
@@ -120,29 +161,40 @@ streamlit run dashboard/app.py
 sg-restaurant-aeo/
 ├── CLAUDE.md              # Development instructions
 ├── PLAN.md                # Phased development plan
+├── OBSERVATIONS.md        # Running log of research findings
 ├── README.md              # You are here
 ├── pyproject.toml         # Project config (uv)
+├── assets/
+│   └── charts/            # High-res chart PNGs for README
 ├── prompts/
 │   ├── discovery_prompts.json    # The master prompt library (140 prompts)
 │   ├── extraction_prompt.txt     # System prompt for structured extraction
 │   └── raw/                      # Original prompts from 5 LLM brainstorms
 ├── scripts/
-│   └── consolidate_prompts.py    # Prompt dedup & normalization pipeline
+│   ├── full_sweep.py             # Main query sweep (search OFF)
+│   ├── search_on_sweep.py        # Search ON sweep
+│   ├── parse_responses.py        # Structured extraction pipeline
+│   ├── resolve_entities.py       # Entity resolution
+│   ├── fetch_google_places.py    # Google Places matching
+│   ├── stability_test.py         # Recommendation stability test
+│   └── export_charts.py          # Generate README chart images
 ├── src/
 │   ├── models.py           # Pydantic models / DB schema
-│   ├── db.py               # SQLite operations
-│   ├── query_runner.py     # Multi-model query execution
+│   ├── db.py               # SQLite operations (6 tables)
+│   ├── query_runner.py     # Multi-model async query execution
 │   ├── response_parser.py  # Structured extraction from raw responses
+│   ├── entity_resolution.py # Three-stage entity resolution
+│   ├── google_places.py    # Google Places API integration
+│   ├── stability_metrics.py # Jaccard, Kendall's tau, core/stochastic
 │   └── analysis.py         # Core analysis functions
 ├── notebooks/
-│   ├── 01_exploratory.ipynb
-│   ├── 02_model_comparison.ipynb
-│   └── 03_signal_analysis.ipynb
+│   └── 01_exploratory.ipynb # Flagship analysis (16 figures, 8 takeaways)
 ├── dashboard/
 │   └── app.py              # Streamlit interactive dashboard
 ├── data/
-│   ├── raw/                # Raw API responses (gitignored)
-│   └── processed/          # Parsed structured data
+│   ├── aeo.db             # SQLite database (all structured data)
+│   ├── raw/               # Raw API responses (JSON)
+│   └── processed/         # Exported CSVs and analysis artifacts
 └── tests/
 ```
 
@@ -153,7 +205,7 @@ This project is designed to be forked. To study LLM restaurant recommendations f
 1. **Fork this repo**
 2. **Adapt the prompt library** — Replace "Singapore" with your city in `prompts/discovery_prompts.json`. Update neighbourhood names, local cuisine references, and cultural context.
 3. **Run the query sweep** — The query runner works for any city. Just update the prompts.
-4. **Build your ground truth** — Swap in local Google Maps data and recruit your own human panel.
+4. **Build your ground truth** — Swap in local Google Maps data.
 5. **Analyze and share** — The analysis notebooks are city-agnostic. Run them on your data and publish your findings.
 
 Cities we'd love to see studied: **Tokyo, Bangkok, London, NYC, Mexico City, Istanbul, Melbourne.**
