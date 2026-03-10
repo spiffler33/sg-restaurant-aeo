@@ -276,6 +276,67 @@ Conversely, **920 restaurants** appear only with search OFF. These may be "train
 
 The 720 "both modes" restaurants are the most robust recommendations: present in both the model's frozen knowledge and current web results. This ~24% overlap figure is a headline finding — it means that toggling one parameter (web search) changes three-quarters of the recommendation set.
 
+## 18. The Invisible Restaurant: 366 Reviews, Zero AI Mentions
+
+A targeted probe of **Sabai Fine Thai on the Bay** — a real restaurant at 70 Collyer Quay, Customs House, Marina Bay — revealed a structural blindspot in LLM restaurant knowledge.
+
+**The facts:** Sabai has 366 Google reviews, a 4.1 rating, and sits in a prime Marina Bay waterfront location. It is not obscure. Yet across 1,690 queries in our main dataset (140 prompts × 4 models × 2 search modes + 570 stability queries), it appeared **zero times**.
+
+We ran a targeted probe: 20 prompts in 4 tiers of increasing specificity × 4 models × 2 search modes = 160 queries. Full results in `data/processed/sabai_probe_report.md`.
+
+### The Specificity Threshold
+
+| Tier | Description | Sabai Detection Rate |
+|---|---|---|
+| T1: Generic | "Best Thai restaurants in Singapore" | 10/40 (25%) |
+| T2: Location | "Thai near Marina Bay / Customs House" | 11/40 (28%) |
+| T3: Attribute | "Thai with bay view / waterfront / royal cuisine" | 14/40 (35%) |
+| T4: Near-name | "Tell me about Sabai Fine Thai" | 37/40 (93%) |
+
+Sabai only reliably surfaces when you mention it by name. For generic or moderately specific Thai queries, it loses to the established canon — Patara, Thanying, Long Chim, Blue Jasmine. The specificity threshold is steep: you need to combine *at least two* of its unique attributes (Thai + Marina Bay, or Thai + bay view) to break through.
+
+### The Breakout Prompts
+
+Two prompts cracked the code:
+- **"Thai restaurant with a bay view in Singapore"** → Sabai at **#1** on 5 of 8 model×search combos
+- **"Good Thai restaurant near Marina Bay"** → Sabai at **#1** on 5 of 8 combos
+
+When the prompt precisely matches Sabai's unique niche (Thai + waterfront + Marina Bay), it dominates. But "upscale Thai Singapore" or "waterfront Asian food Marina Bay" — slightly broader queries — produce zero Sabai mentions.
+
+### The Competitor Asymmetry: Sarai vs Sabai
+
+The probe also tracked **Sarai Fine Thai** (Tanglin Mall), a similar-named competitor. The detection pattern is the inverse:
+
+| Tier | Sabai | Sarai |
+|---|---|---|
+| T1: Generic Thai | 10/40 | **14/40** |
+| T2: Marina Bay / CBD | **11/40** | 0/40 |
+| T3: Bay view / waterfront | **14/40** | 5/40 |
+| T4: Near-name | **37/40** | 8/40 |
+
+Sarai dominates generic Thai queries. Sabai dominates location-specific ones. When you say "Thai restaurant" without geographic context, LLMs default to the more generically well-known option. Geography is Sabai's competitive moat in the AI recommendation space.
+
+### Model Behavior
+
+| Model | Sabai Detections (/40) | Notes |
+|---|---|---|
+| Gemini | **24** | Best friend — surfaces Sabai even in generic T1 queries (search ON) |
+| GPT-4o | 18 | Good for attribute-specific prompts |
+| Claude | 16 | Almost never surfaces Sabai without search ON or name mention |
+| Perplexity | 14 | Worst — search ON actually *hurts* (0 search-ON detections in T1-T3) |
+
+Gemini's verbosity (10.9 restaurants/response) works in Sabai's favor — its longer lists have room for less-famous restaurants. Claude's parametric memory appears to lack Sabai entirely; it only surfaces with web search (T1-T3) or direct name mention (T4).
+
+### Methodological Implications
+
+**This reveals a gap in our main study.** Our 140 prompts are designed to probe broad dimensions (cuisine, vibe, neighbourhood, etc.) — none are specific enough to surface restaurants like Sabai. The main dataset captures the "AI canon" and medium-tier recommendations, but misses the long tail of real, operational, well-reviewed restaurants that simply don't have enough media presence to enter the models' parametric memory.
+
+**366 Google reviews is not enough.** Compare to the consensus restaurants (known to all 4 models): they average thousands of reviews and extensive media coverage. Sabai's 366 reviews place it well below the "AI awareness threshold" for generic discovery — roughly in the same band as our 964 unmatched canonical restaurants.
+
+**Search ON doesn't fully solve this.** Even with web search enabled, Sabai appeared in only 40/80 search-ON queries (50%), and only when the prompt was specific enough. Web search helps but doesn't eliminate the discoverability gap.
+
+**Practical AEO takeaway for restaurants like Sabai:** Optimize for the *specific queries your customers actually ask*. "Thai restaurant Marina Bay" and "Thai with bay view Singapore" are the prompts where Sabai ranks #1 — that's the keyword space to own. Generic "best Thai food Singapore" is a fight against Patara, Thanying, and Long Chim that a 366-review restaurant cannot win.
+
 ---
 
-*Last updated: 2026-03-10, after Phase 4 flagship notebook and README rewrite. 3,666 canonical restaurants (2,991 active research set). 1,266 Google Places verified, 30 closed. 16 figures in flagship notebook.*
+*Last updated: 2026-03-10, after Sabai Fine Thai probe. 3,666 canonical restaurants (2,991 active research set). 1,266 Google Places verified, 30 closed. 160 targeted probe queries (separate from main dataset). 16 figures in flagship notebook.*
