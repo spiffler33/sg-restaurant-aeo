@@ -133,51 +133,61 @@ def chart_model_breadth(conn):
     save(fig, "model_breadth.png")
 
 
-# ── Chart 3: Zombie restaurant status ────────────────────────────────────────
+# ── Chart 3: Zombie restaurants — top closed by mention count ─────────────────
 def chart_zombie_status(conn):
-    status_data = pd.read_sql_query("""
-        SELECT gp.business_status, COUNT(*) AS count
-        FROM google_places gp
-        JOIN canonical_restaurants cr ON gp.canonical_id = cr.id
+    closed = pd.read_sql_query("""
+        SELECT cr.canonical_name, cr.total_mentions, cr.model_count,
+               gp.business_status
+        FROM canonical_restaurants cr
+        JOIN google_places gp ON gp.canonical_id = cr.id
         WHERE gp.human_verified = 1 AND cr.model_count > 0
-        GROUP BY gp.business_status
-        ORDER BY count DESC
+          AND gp.business_status LIKE 'CLOSED%'
+        ORDER BY cr.total_mentions DESC
     """, conn)
 
-    if len(status_data) == 0:
-        print("  SKIP zombie_status — no verified Google Places data")
+    if len(closed) == 0:
+        print("  SKIP zombie_status — no closed restaurants found")
         return
 
-    total_verified = status_data["count"].sum()
+    # Show top 15 for readability
+    top = closed.head(15).copy()
+    top = top.iloc[::-1]  # reverse for horizontal bar (top at top)
+
     status_colors = {
-        "OPERATIONAL": "#2ca02c",
         "CLOSED_PERMANENTLY": "#d62728",
         "CLOSED_TEMPORARILY": "#ff7f0e",
     }
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5),
-                                    gridspec_kw={"width_ratios": [1, 1.3]})
+    fig, ax = plt.subplots(figsize=(10, 7))
+    colors = [status_colors[s] for s in top["business_status"]]
 
-    pie_colors = [status_colors.get(s, "#999") for s in status_data["business_status"]]
-    pie_labels = [s.replace("_", " ").title() for s in status_data["business_status"]]
-    wedges, texts, autotexts = ax1.pie(
-        status_data["count"], labels=pie_labels, colors=pie_colors,
-        autopct="%1.1f%%", startangle=90, textprops={"fontsize": 10},
-    )
-    for t in autotexts:
-        t.set_fontweight("bold")
-    ax1.set_title(f"Business status of AI-recommended restaurants\n"
-                  f"(n={total_verified:,} verified)")
+    bars = ax.barh(range(len(top)), top["total_mentions"], color=colors,
+                   edgecolor="white", linewidth=0.5)
 
-    bars = ax2.barh(pie_labels[::-1], status_data["count"].values[::-1],
-                     color=pie_colors[::-1], edgecolor="white")
-    for bar, val in zip(bars, status_data["count"].values[::-1]):
-        ax2.text(bar.get_width() + 5, bar.get_y() + bar.get_height() / 2,
-                 f"{val:,}", va="center", fontsize=11, fontweight="bold")
-    ax2.set_xlabel("Number of restaurants")
-    ax2.set_title("Count by status")
-    sns.despine(ax=ax2)
+    # Restaurant names with model count annotation
+    labels = [f"{name}  ({mc}/4 models)"
+              for name, mc in zip(top["canonical_name"], top["model_count"])]
+    ax.set_yticks(range(len(top)))
+    ax.set_yticklabels(labels, fontsize=9)
 
+    for bar, val in zip(bars, top["total_mentions"]):
+        ax.text(bar.get_width() + 0.5, bar.get_y() + bar.get_height() / 2,
+                str(val), va="center", fontsize=9, fontweight="bold")
+
+    # Legend
+    from matplotlib.patches import Patch
+    legend_elements = [
+        Patch(facecolor="#d62728", label="Permanently closed"),
+        Patch(facecolor="#ff7f0e", label="Temporarily closed"),
+    ]
+    ax.legend(handles=legend_elements, loc="lower right", framealpha=0.9)
+
+    ax.set_xlabel("Total AI mentions")
+    ax.set_title(f"Zombie restaurants: closed but still recommended\n"
+                 f"({len(closed)} closed out of "
+                 f"{closed['total_mentions'].sum():,} total mentions)")
+    ax.set_xlim(0, top["total_mentions"].max() * 1.15)
+    sns.despine()
     plt.tight_layout()
     save(fig, "zombie_status.png")
 
