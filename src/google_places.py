@@ -168,6 +168,34 @@ def _status_rank(result: dict) -> int:
     return {"OPERATIONAL": 2, "CLOSED_TEMPORARILY": 1}.get(status, 0)
 
 
+def _review_count_override(
+    current_best: tuple[dict, MatchConfidence, float],
+    candidate: tuple[dict, MatchConfidence, float],
+    review_ratio_threshold: float = 5.0,
+    min_score_threshold: float = 55.0,
+) -> bool:
+    """Check if a candidate should override the current best due to vastly more reviews.
+
+    Prevents franchise/express outlets from beating flagship locations.
+    If the candidate has ≥5x the review count of the current best AND
+    scored ≥55% name similarity, prefer the high-review candidate —
+    it's likely the original/flagship location.
+
+    Example: "Swee Choon Tim Sum Restaurant" should match the Jalan Besar
+    original (11,448 reviews) over "Swee Choon Express AMK Hub" (369 reviews).
+    """
+    best_result, _, _ = current_best
+    cand_result, _, cand_score = candidate
+
+    best_reviews = best_result.get("user_ratings_total", 0) or 0
+    cand_reviews = cand_result.get("user_ratings_total", 0) or 0
+
+    if best_reviews == 0 or cand_score < min_score_threshold:
+        return False
+
+    return cand_reviews >= best_reviews * review_ratio_threshold
+
+
 def select_best_match(
     canonical_name: str,
     results: list[dict],
@@ -182,6 +210,11 @@ def select_best_match(
       2. OPERATIONAL > CLOSED_TEMPORARILY > CLOSED_PERMANENTLY
       3. Higher raw fuzzy score
       4. Higher review count (catches main branch of chain restaurants)
+
+    Post-selection override: if a rejected candidate has ≥5x the review
+    count of the winner AND ≥55% name similarity, the high-review candidate
+    wins. This prevents franchise/express outlets from beating flagship
+    locations (e.g., Swee Choon Express AMK Hub vs Swee Choon Jalan Besar).
     """
     best: Optional[tuple[dict, MatchConfidence, float]] = None
     confidence_rank = {
@@ -207,9 +240,11 @@ def select_best_match(
         if confidence == MatchConfidence.UNMATCHED:
             continue
 
+        candidate = (result, confidence, score)
+
         # Compare against current best using (confidence, status, score, reviews) tuple
         if best is None:
-            best = (result, confidence, score)
+            best = candidate
         else:
             best_result, best_conf, best_score = best
             new_key = (
@@ -225,7 +260,11 @@ def select_best_match(
                 best_result.get("user_ratings_total", 0),
             )
             if new_key > best_key:
-                best = (result, confidence, score)
+                best = candidate
+            elif _review_count_override(best, candidate):
+                # Override: candidate has vastly more reviews (≥5x) and
+                # reasonable name similarity (≥55%) — likely the flagship
+                best = candidate
 
     return best
 
