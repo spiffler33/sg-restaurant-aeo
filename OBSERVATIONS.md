@@ -176,6 +176,52 @@ Five runs of "What are the best mod-Sin or fusion restaurants in Singapore?"
 
 The 4 core restaurants are genuine Claude-knowledge anchors for this prompt. The 15 stochastic restaurants are drawn from a much larger implicit distribution — they're "known" but not reliably surfaced.
 
+## 11. Ground Truth: LLMs Recommend Dead Restaurants
+
+Phase 3a matched canonical restaurants against Google Places and flagged business status. Human triage of the top 125 (by mention count) confirmed **32 closed restaurants** in our verified set — 23 permanently closed, 9 temporarily.
+
+These aren't obscure picks. **14 of the 32 closed restaurants are mentioned by all 4 models**, and they account for **446 total mentions** across the dataset. Some highlights:
+
+| Restaurant | Mentions | Models | Status | Notes |
+|---|---|---|---|---|
+| Open Farm Community | 44 | 4/4 | CLOSED_PERMANENTLY | Was a top-50 restaurant by mentions |
+| Corner House | 33 | 4/4 | CLOSED_PERMANENTLY | Michelin-starred, closed 2024 |
+| Lolla | 23 | 4/4 | CLOSED_PERMANENTLY | |
+| Esora | 16 | 4/4 | CLOSED_PERMANENTLY | |
+| Hashida Sushi | 16 | 4/4 | CLOSED_PERMANENTLY | |
+| Sushi Kimura | 13 | 4/4 | CLOSED_PERMANENTLY | |
+| Tippling Club | 11 | 3/4 | CLOSED_PERMANENTLY | |
+
+**This is the strongest evidence yet that LLM training data is stale for local business recommendations.** These restaurants existed in the Michelin guide, food blogs, and review sites that formed the training corpus, but closed between training cutoff and query time. Web search partially mitigates this (search ON is less likely to surface closed places), but even search-augmented responses still recommend some.
+
+**AEO implication:** A restaurant that closes doesn't disappear from AI recommendations — it persists as a ghost in the training data, potentially for years. This creates a "zombie restaurant" problem: users get confidently recommended to places that no longer exist.
+
+## 12. The Review Anomaly: Franchises vs Flagships
+
+Google Places matching revealed a subtle bug: automated matching picked **franchise branches** over **flagship locations** when the branch name was a closer string match.
+
+**The Swee Choon case:** "Swee Choon Tim Sum Restaurant" matched to "Swee Choon Tim Sum Restaurant (Express) - AMK Hub" (369 reviews, perfect name match score) instead of "Swee Choon Jalan Besar" (11,448 reviews, 67% name match). The algorithm optimized for name similarity, but any Singaporean knows Swee Choon *is* the Jalan Besar original.
+
+Similarly, "Plain Vanilla Bakery" matched to "Plain Vanilla" at Bukit Timah (201 reviews) instead of "Plain Vanilla Tiong Bahru" (1,145 reviews) — the iconic original location.
+
+**Lesson for entity matching:** Review count is a critical signal for identifying the "canonical" branch of a multi-location restaurant. A simple heuristic — prefer 5x+ reviews at ≥55% name match over 100% name match with fewer reviews — would have caught all three anomaly cases.
+
+## 13. Human Review Catches What Algorithms Miss
+
+The triage process discovered **10 additional entity resolution merges** that Phase 2b's fuzzy matching couldn't detect. These were "obvious to a human, hard for a computer" cases:
+
+| Old Name → New Name | Why Fuzzy Matching Failed |
+|---|---|
+| Meta → Meta Restaurant | Short name, "Restaurant" adds >50% to token length |
+| Born → Restaurant Born | Same issue |
+| Bar Cicheti → Cicheti | "Bar" prefix changes fuzzy ratio |
+| Wild Rocket → Relish by Wild Rocket | Restaurant rebranded |
+| Komala Vilas → Komala's | Completely different string after shortening |
+
+Combined with the 2 explicit duplicate merges (Bincho/Bincho at Hua Bee, Euphoria/Restaurant Euphoria), the triage collapsed 12 duplicate canonical entries. Total entity resolution merges across the project: **306** (294 automated + 12 human triage).
+
+**The pattern:** Automated fuzzy matching handles ~96% of merges. The remaining ~4% require domain knowledge — knowing that a restaurant rebranded, that locals use a shortened name, or that "Bar X" and "X" are the same place.
+
 ---
 
-*Last updated: 2026-03-04, after Phase 2c stability test. Next: Phase 3 ground truth validation, Phase 4 deep analysis.*
+*Last updated: 2026-03-10, after Phase 3a triage application. 1,290 human-verified Google Places matches. Next: Phase 4 deep analysis.*
