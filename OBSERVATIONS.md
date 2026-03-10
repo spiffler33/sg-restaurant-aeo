@@ -206,6 +206,8 @@ Similarly, "Plain Vanilla Bakery" matched to "Plain Vanilla" at Bukit Timah (201
 
 **Lesson for entity matching:** Review count is a critical signal for identifying the "canonical" branch of a multi-location restaurant. A simple heuristic — prefer 5x+ reviews at ≥55% name match over 100% name match with fewer reviews — would have caught all three anomaly cases.
 
+**Fix applied:** `_review_count_override()` in `src/google_places.py` now implements this heuristic (≥5x reviews + ≥55% name similarity → prefer the high-review candidate). Code fix only — not re-run on existing data, but available for future matching passes.
+
 ## 13. Human Review Catches What Algorithms Miss
 
 The triage process discovered **10 additional entity resolution merges** that Phase 2b's fuzzy matching couldn't detect. These were "obvious to a human, hard for a computer" cases:
@@ -222,6 +224,34 @@ Combined with the 2 explicit duplicate merges (Bincho/Bincho at Hua Bee, Euphori
 
 **The pattern:** Automated fuzzy matching handles ~96% of merges. The remaining ~4% require domain knowledge — knowing that a restaurant rebranded, that locals use a shortened name, or that "Bar X" and "X" are the same place.
 
+## 14. Place ID as Entity Resolution Signal: 33 Hidden Duplicates
+
+The place_id dedup pass scanned raw Google Places JSON responses and found **33 pairs of canonical restaurants** that resolved to the same Google place_id — confirmed duplicates invisible to fuzzy name matching.
+
+Some of these were obvious-in-hindsight name variants that no string similarity algorithm could catch:
+
+| Canonical A | Canonical B | Why Fuzzy Matching Missed It |
+|---|---|---|
+| Violet Oon Singapore | National Kitchen by Violet Oon | Completely different lead word |
+| Zen | Restaurant Zén | "Zen" vs "Restaurant Zén" — too short, too different |
+| Tian Tian | Tian Tian Hainanese Chicken Rice | Partial vs full name |
+| PS.Cafe | PS.Cafe at Harding Road | Location qualifier |
+| LAVO | Lavo Italian Restaurant | Brand name vs full name |
+
+**Total entity resolution merges across all stages: 339** (294 Phase 2b automated + 12 Phase 3a human triage + 33 place_id dedup).
+
+**Methodological takeaway:** External identifiers (Google place_id, Michelin URLs, reservation system IDs) are far more reliable than name similarity for entity resolution. If we had place_ids from the start, we could skip fuzzy matching entirely for matched restaurants. This is a strong argument for early ground-truth linking in any entity resolution pipeline.
+
+## 15. Multi-Branch Chains: A Matching Pitfall
+
+Komala's — a well-known South Indian vegetarian chain with multiple Singapore branches — was incorrectly flagged as "temporarily closed" in the zombie restaurant analysis. The automated matching picked **Komala Vilas Restaurant at Serangoon Rd** (6,971 reviews, 68.6% match score, CLOSED_TEMPORARILY) over **Komala's Restaurants at Race Course Rd** (562 reviews, 53.8% match score, OPERATIONAL).
+
+The chain is very much alive. One specific branch (the original Komala Vilas location) happened to be temporarily closed, but this doesn't make "Komala's" a zombie restaurant. This is the multi-branch version of the franchise-vs-flagship problem from §12: when a chain has locations in different states (open vs closed), the highest-scoring match may not be the most representative one.
+
+**Fix applied:** Un-verified the closed Komala Vilas branch entry (`human_verified = 0`), keeping only the OPERATIONAL Komala's Restaurants entry as the verified match.
+
+**General lesson:** For chain restaurants, match-score ranking should prefer OPERATIONAL entries over closed ones, regardless of name similarity score. A closed branch of an open chain is not a zombie restaurant.
+
 ---
 
-*Last updated: 2026-03-10, after Phase 3a triage application. 1,290 human-verified Google Places matches. Next: Phase 4 deep analysis.*
+*Last updated: 2026-03-10, after Komala's multi-branch fix. 3,666 canonical restaurants (2,991 active research set). Phase 4 flagship notebook complete.*
