@@ -1,111 +1,98 @@
 # Development Plan
 
-## Phase 1: Prompt Library + First Data Pull (Week 1)
+## Phase 1: Prompt Library + First Data Pull ✅ COMPLETE
 **Goal:** Build the research instrument and collect first dataset.
 
-### 1a: Prompt Library
+### 1a: Prompt Library ✅
 - [x] Consolidate prompts from 5 LLM brainstorming sessions (Claude, ChatGPT, Gemini, Grok, Perplexity) into `prompts/discovery_prompts.json`
 - [x] Structure: each prompt has `id`, `text`, `dimension` (8 dimensions), `category`, `specificity` (broad/medium/narrow)
 - [x] 140 prompts covering the full matrix (581 raw → 140 after fuzzy dedup & thinning)
-- [ ] Include both "tourist" and "local" framings for comparable prompts
+- [ ] Include both "tourist" and "local" framings for comparable prompts *(deferred — not needed for core analysis)*
 
-### 1b: Query Runner
+### 1b: Query Runner ✅
 - [x] Build `src/query_runner.py` — takes a prompt, queries N models, returns structured results
-- [x] Models: GPT-4o, Claude Sonnet, Gemini 1.5 Pro, Perplexity (sonar)
+- [x] Models: GPT-4o, Claude Sonnet, Gemini 2.5 Flash, Perplexity Sonar
 - [x] For each model, query with search/browsing OFF where possible (parametric only)
 - [x] Then query with search ON where available
 - [x] Store: raw response, model name, search_enabled flag, timestamp, prompt_id
 - [x] Rate limiting + retry logic + progress bar (rich)
 - [x] Save all raw responses to `data/raw/` as JSON
 
-### 1c: First Pull
-- [ ] Run full prompt library × all models × search on/off
-- [ ] Estimated API cost: ~$30-50
-- [ ] Store everything in SQLite
+### 1c: First Pull ✅
+- [x] Run full prompt library × all models × search on/off
+- [x] **Search OFF sweep:** 140 prompts × 4 models = 560 queries, cost $0.97
+- [x] **Search ON sweep:** 140 prompts × 4 models = 560 queries, cost $65.38
+- [x] **Total: 1,120 queries** stored in SQLite (`data/aeo.db`) + individual JSON files in `data/raw/`
+- [x] Combined API cost: **$66.36** (Claude search ON dominated at $64.71 due to web_search tool fetching full page content as input tokens)
 
-## Phase 2: Response Parser (Week 2)
+## Phase 2: Response Parser ✅ COMPLETE
 **Goal:** Extract structured restaurant data from raw LLM responses.
 
-### 2a: Extraction Pipeline
-- [ ] Build `src/response_parser.py`
-- [ ] Use Claude API to parse each raw response into structured data
-- [ ] Extract per response: list of restaurants mentioned, each with:
-  - `name` (normalized — handle spelling variations)
-  - `rank_position` (order mentioned in response, 1-indexed)
-  - `neighbourhood` mentioned
-  - `cuisine_tags`
-  - `vibe_tags` (romantic, casual, lively, quiet, etc.)
-  - `price_indicator` if mentioned
-  - `descriptors` (raw adjectives/phrases used)
-  - `sentiment_score` (positive/neutral/negative)
-  - `is_primary_recommendation` vs just mentioned
-- [ ] Build restaurant name normalization (fuzzy matching to canonical names)
-- [ ] Store parsed data in SQLite
+**Summary:** 1,690 total queries, 12,256 mentions, 3,666 canonical restaurants (after all merges). Stability test (570 queries) confirmed LLM recommendations are surprisingly unstable (mean Jaccard 0.256).
 
-### 2b: Entity Resolution
-- [ ] Build a canonical restaurant registry from all parsed mentions
-- [ ] Fuzzy match variants ("Burnt Ends" / "Burnt Ends Singapore" / "burnt ends")
-- [ ] Manual review pass for ambiguous cases
+### 2a: Extraction Pipeline ✅
+- [x] Build `src/response_parser.py` — uses Claude Haiku 4.5 for structured extraction
+- [x] Use Claude API to parse each raw response into structured data
+- [x] Extract per response: list of restaurants mentioned, each with name, rank_position, neighbourhood, cuisine_tags, vibe_tags, price_indicator, descriptors, sentiment_score, is_primary_recommendation
+- [x] Build restaurant name normalization (fuzzy matching to canonical names)
+- [x] Store parsed data in SQLite
+- [x] **Results:** 1,120/1,120 parsed, **7,893 mentions**, **3,266 unique names**, avg 7.0 mentions/response
+- [x] Parsing cost: ~$7.10
 
-Phase 2c: Recommendation Stability Test
-Goal: Quantify how reproducible LLM restaurant recommendations are across repeated identical queries. This transforms single-draw observations into statistically grounded findings.
-Design:
+### 2b: Entity Resolution ✅
+- [x] Build a canonical restaurant registry from all parsed mentions (`src/entity_resolution.py`)
+- [x] Three-stage pipeline: exact normalized → base name → fuzzy match with shared-word penalty (rapidfuzz + Union-Find)
+- [x] **3,266 unique names → 3,038 canonicals** (294 automated merges + 6 manual)
+- [x] 7,893/7,893 mentions linked to canonical_id (zero unlinked)
+- [x] 148 restaurants mentioned by all 4 models (consensus set), 2,175 by only 1 model (long tail)
+- [x] 183 borderline pairs saved for future review (`data/borderline_pairs.json`)
 
-Select 15 prompts stratified across the prompt library:
+### 2c: Recommendation Stability Test ✅
+- [x] 15 prompts stratified: 5 broad, 5 medium, 5 narrow across cuisine/neighbourhood/vibe/occasion/price
+- [x] 570 queries (15 prompts × 5 runs × 4 models × 2 search modes; Claude ON = 3 runs to control cost)
+- [x] **Key finding: LLM recommendations are surprisingly unstable**
+  - Mean Jaccard similarity: 0.256 (only ~26% set overlap between runs)
+  - Mean Kendall's tau: 0.571 (moderate rank correlation when items do overlap)
+  - 79.5% of appearances are stochastic (≤2/5 runs), only 12.7% are core (≥4/5)
+- [x] GPT-4o most stable (Jaccard 0.317), Gemini least (0.224)
+- [x] Search OFF slightly more stable than ON (0.264 vs 0.247)
+- [x] Cost: $22.87 (queries $19.04 + parsing $3.83)
+- [x] Added 679 new canonical entries (restaurants seen only in stability runs, `model_count=0`)
 
-5 broad (e.g., "Best restaurants in Singapore")
-5 medium (e.g., "Date night in Tiong Bahru")
-5 narrow (e.g., "Omakase under $150 near Tanjong Pagar")
-
-
-Also stratify across dimensions — pick from cuisine, neighbourhood, vibe, occasion, price (3 prompts each)
-Run each prompt 5 times per model, both search ON and OFF
-That's 15 prompts × 5 runs × 4 models × 2 modes = 600 queries
-Estimated cost: ~$15-20 (half are search ON, Claude search ON is the expensive part — consider running Claude search ON at only 3 reruns to control cost)
-
-Parameters:
-
-Use the same temperature settings as the original sweep (document what they were)
-Same system prompts, same everything — the only variable is the stochastic sampling
-Tag these in the DB with a run_number (1-5) and is_stability_test=True
-
-Metrics to compute per prompt × model × search mode:
-
-Set stability (Jaccard): Of the restaurants returned across 5 runs, what fraction appear in all 5 vs only 1? Jaccard similarity between all pairs of runs.
-Rank stability (Kendall's tau): For restaurants that appear in multiple runs, how consistent is their rank order?
-Core vs stochastic split: Restaurants in 4/5 or 5/5 runs = "core recommendations." 1/5 or 2/5 = "stochastic tail." What percentage of mentions fall in each bucket?
-Stability by specificity: Are narrow prompts more stable than broad ones? (Hypothesis: yes, because the answer space is more constrained.)
-Stability by model: Which model is most consistent? (Hypothesis: Perplexity, because search grounds it to specific sources.)
-
-Deliverables:
-
-Stability metrics table by model and specificity level
-A confidence tier tag on every restaurant in the main dataset: if a restaurant's prompt appearances are mostly in "core" buckets across the stability test, it gets high confidence. If it only appeared once and that prompt wasn't in the stability test, flag it as unvalidated.
-A "Recommendation Stability" section for the README/notebooks — this is a methodological contribution in its own right
-
-Cost control lever: If Claude search ON is blowing the budget, do only 3 reruns for Claude search ON (still enough for basic stability measurement). That drops from 600 to 540 queries and saves ~$20.
-
-## Phase 3: Ground Truth + Validation (Week 3)
+## Phase 3: Ground Truth + Validation — PARTIALLY COMPLETE
 **Goal:** Build comparison datasets independent of LLM training data.
 
-### 3a: Google Maps Data
-- [ ] Use Google Places API to get structured data for every restaurant in our parsed dataset
-- [ ] Pull: rating, review_count, price_level, category, location, photos_count
-- [ ] Also pull for top-100 Singapore restaurants by review count (the "popular consensus" set)
+### 3a: Google Maps Data ✅ (partially complete)
+- [x] Use Google Places Text Search API to get structured data for restaurants in parsed dataset
+- [x] Pull: rating, review_count, price_level, category, location
+- [x] **2,702 Google Places matches** (1,549 HIGH confidence, 605 MEDIUM confidence)
+- [x] **1,267 human-verified** entries (top ~300 restaurants triaged manually)
+- [x] **2,200 OPERATIONAL**, 441 CLOSED_PERMANENTLY
+- [x] **Phase 3a triage:** 1,290 human-verified matches, 12 merges, 3 anomaly patches applied
+- [x] **Place ID dedup pass:** 33 additional merges via Google place_id signal (e.g., Violet Oon ↔ National Kitchen, Zen ↔ Restaurant Zén, Tian Tian ↔ Tian Tian Hainanese Chicken Rice)
+- [x] **Review anomaly bug fixed** in `select_best_match`: `_review_count_override()` heuristic prefers candidates with ≥5x reviews + ≥55% name similarity (code fix only, not re-run)
+- [x] Google API cost: ~$304 SGD
+- [ ] ~964 canonical restaurants with no Google match (mostly long-tail, 1-2 mentions) — deferred
 
-### 3b: Human Panel
+**Running totals after all Phase 3a merges:**
+- Canonical restaurants: **3,666 total** (3,038 after Phase 2b → +679 from Phase 2c stability → -12 triage merges → -33 place_id dedup → **3,666 confirmed in DB**)
+- Of which **675 are stability-test-only** (`model_count=0`, incomplete metadata) — the **active research set is ~2,991**
+- Total mentions: **12,256** (all linked)
+- Total queries: **1,690** (1,120 original + 570 stability)
+
+### 3b: Human Panel — NOT STARTED
 - [ ] Build Google Form for friends panel (15-20 Singapore residents)
 - [ ] Rate restaurants on: food quality, vibe, value, service (1-5)
 - [ ] Tag each restaurant for: date night? business lunch? family? casual hangout? special occasion?
 - [ ] Free text: "what restaurant do you recommend that nobody knows about?"
 - [ ] Import results into SQLite
 
-### 3c: Recency Test
+### 3c: Recency Test — NOT STARTED
 - [ ] Identify 20+ restaurants that opened in 2025-2026 (after training cutoffs)
 - [ ] Test which models find them (search on vs off)
 - [ ] Measure "new restaurant discovery latency"
 
-## Phase 4: Analysis + Visualization (Week 4)
+## Phase 4: Analysis + Visualization — IN PROGRESS
 **Goal:** Answer the core research questions.
 
 ### Key Questions:
@@ -127,3 +114,8 @@ Cost control lever: If Claude search ON is blowing the budget, do only 3 reruns 
 - Add "intervention test" — modify a restaurant's web presence and measure if AI recommendations change
 - Expand to hawker centres
 - Fork-friendly design so others can run for their city
+
+## Deferred / Backlog
+- **(a) Re-run Google Places matcher on ~964 long-tail restaurants** with fixed `_review_count_override()` algorithm. These are mostly 1-2 mention restaurants — not needed for headline analysis but would improve completeness.
+- **(b) Second triage round for long-tail matches.** The current 1,267 human-verified entries cover the top ~300 most-mentioned restaurants. A second pass on MEDIUM/LOW confidence matches in the long tail would catch more errors.
+- **(c) Monthly re-query tracking.** Re-run the full prompt library periodically to measure recommendation drift over time. Infrastructure exists (`query_runner.py`), just needs a scheduling wrapper and delta analysis.
