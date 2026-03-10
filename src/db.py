@@ -19,6 +19,8 @@ from typing import Optional
 from .models import (
     CanonicalRestaurant,
     DiscoveryPrompt,
+    GooglePlace,
+    MatchConfidence,
     ModelName,
     ParsedResponse,
     PriceIndicator,
@@ -104,6 +106,30 @@ def create_tables(conn: sqlite3.Connection) -> None:
 
         CREATE INDEX IF NOT EXISTS idx_canonical_restaurants_name
             ON canonical_restaurants(canonical_name);
+
+        CREATE TABLE IF NOT EXISTS google_places (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            canonical_id INTEGER REFERENCES canonical_restaurants(id),
+            place_id TEXT NOT NULL UNIQUE,
+            google_name TEXT NOT NULL,
+            formatted_address TEXT NOT NULL DEFAULT '',
+            lat REAL NOT NULL,
+            lng REAL NOT NULL,
+            rating REAL,
+            user_ratings_total INTEGER,
+            price_level INTEGER,
+            types TEXT NOT NULL DEFAULT '[]',
+            business_status TEXT,
+            match_confidence TEXT NOT NULL DEFAULT 'unmatched',
+            match_score REAL,
+            is_popular_baseline BOOLEAN NOT NULL DEFAULT 0,
+            fetched_at TEXT NOT NULL
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_google_places_canonical
+            ON google_places(canonical_id);
+        CREATE INDEX IF NOT EXISTS idx_google_places_confidence
+            ON google_places(match_confidence);
         """
     )
     # Add canonical_id column to restaurant_mentions if it doesn't exist
@@ -449,3 +475,81 @@ def get_canonical_mention_counts(conn: sqlite3.Connection) -> list[dict]:
         """
     ).fetchall()
     return [dict(r) for r in rows]
+
+
+# ---------------------------------------------------------------------------
+# Google Places operations
+# ---------------------------------------------------------------------------
+
+
+_CONFIDENCE_RANK = {"high": 3, "medium": 2, "low": 1, "unmatched": 0}  # low kept for existing DB rows
+
+
+def insert_google_place(conn: sqlite3.Connection, place: GooglePlace) -> int:
+    """Insert or update a Google Places result. Returns the row ID.
+
+    If the place_id already exists, only replaces when the new match is
+    strictly better (higher confidence, or same confidence with higher score).
+    This prevents low-confidence batch 3 matches from overwriting high-
+    confidence batch 1 matches that happen to share the same Google place.
+    """
+    existing = conn.execute(
+        "SELECT match_confidence, match_score, canonical_id FROM google_places WHERE place_id = ?",
+        (place.place_id,),
+    ).fetchone()
+
+    if existing:
+        old_rank = _CONFIDENCE_RANK.get(existing["match_confidence"], 0)
+        new_rank = _CONFIDENCE_RANK.get(place.match_confidence.value, 0)
+        old_score = existing["match_score"] or 0
+        new_score = place.match_score or 0
+
+        # Only replace if strictly better match
+        if new_rank < old_rank or (new_rank == old_rank and new_score <= old_score):
+            return existing["canonical_id"] or 0  # Keep existing, return its id
+
+    cursor = conn.execute(
+        """
+        INSERT OR REPLACE INTO google_places
+            (canonical_id, place_id, google_name, formatted_address,
+             lat, lng, rating, user_ratings_total, price_level, types,
+             business_status, match_confidence, match_score,
+             is_popular_baseline, fetched_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            place.canonical_id,
+            place.place_id,
+            place.google_name,
+            place.formatted_address,
+            place.lat,
+            place.lng,
+            place.rating,
+            place.user_ratings_total,
+            place.price_level,
+            json.dumps(place.types),
+            place.business_status,
+            place.match_confidence.value,
+            place.match_score,
+            place.is_popular_baseline,
+            place.fetched_at.isoformat(),
+        ),
+    )
+    conn.commit()
+    return cursor.lastrowid  # type: ignore[return-value]
+
+
+def get_matched_canonical_ids(conn: sqlite3.Connection) -> set[int]:
+    """Get canonical_ids already matched in google_places (for idempotent reruns)."""
+    rows = conn.execute(
+        "SELECT DISTINCT canonical_id FROM google_places WHERE canonical_id IS NOT NULL"
+    ).fetchall()
+    return {r["canonical_id"] for r in rows}
+
+
+def get_baseline_place_ids(conn: sqlite3.Connection) -> set[str]:
+    """Get place_ids already fetched as baseline (for idempotent reruns)."""
+    rows = conn.execute(
+        "SELECT place_id FROM google_places WHERE is_popular_baseline = 1"
+    ).fetchall()
+    return {r["place_id"] for r in rows}

@@ -171,6 +171,56 @@ class ParsedResponse(BaseModel):
     )
 
 
+class MatchConfidence(str, Enum):
+    """Confidence level for Google Places match to a canonical restaurant."""
+
+    HIGH = "high"          # ≥90% name match + in Singapore
+    MEDIUM = "medium"      # 70-89% + in Singapore
+    LOW = "low"            # Legacy: exists in DB but no longer assigned (was 50-69%)
+    UNMATCHED = "unmatched"
+
+
+class GooglePlace(BaseModel):
+    """A Google Places result matched (or attempted) to a canonical restaurant.
+
+    Stores the raw Google data alongside match metadata. Used for ground truth
+    validation: are LLMs recommending real, open, well-reviewed restaurants?
+    """
+
+    id: Optional[int] = Field(default=None, description="Auto-incremented DB row ID")
+    canonical_id: Optional[int] = Field(
+        default=None, description="FK to canonical_restaurants, null for baseline-only"
+    )
+    place_id: str = Field(..., description="Google's unique place identifier")
+    google_name: str = Field(..., description="Name as returned by Google Places")
+    formatted_address: str = Field(default="", description="Full address from Google")
+    lat: float = Field(..., description="Latitude")
+    lng: float = Field(..., description="Longitude")
+    rating: Optional[float] = Field(default=None, description="Google rating (1.0-5.0)")
+    user_ratings_total: Optional[int] = Field(
+        default=None, description="Total number of Google reviews"
+    )
+    price_level: Optional[int] = Field(
+        default=None, description="Google price level (0-4)"
+    )
+    types: list[str] = Field(default_factory=list, description="Google place types (JSON in DB)")
+    business_status: Optional[str] = Field(
+        default=None, description="OPERATIONAL, CLOSED_TEMPORARILY, CLOSED_PERMANENTLY"
+    )
+    match_confidence: MatchConfidence = Field(
+        default=MatchConfidence.UNMATCHED, description="How well this matches the canonical name"
+    )
+    match_score: Optional[float] = Field(
+        default=None, description="Fuzzy match score (0-100)"
+    )
+    is_popular_baseline: bool = Field(
+        default=False, description="True if from baseline popular search, not canonical match"
+    )
+    fetched_at: datetime = Field(
+        default_factory=datetime.utcnow, description="When the Google Places data was fetched"
+    )
+
+
 class CanonicalRestaurant(BaseModel):
     """A resolved restaurant entity after entity resolution.
 

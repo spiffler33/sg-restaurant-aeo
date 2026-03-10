@@ -1,0 +1,578 @@
+[
+  {
+    "canonical_id": 3144,
+    "canonical_name": "Hai Di Lao"
+  },
+  {
+    "canonical_id": 3148,
+    "canonical_name": "Potato Head Folk"
+  },
+  {
+    "canonical_id": 3237,
+    "canonical_name": "Potato Head Singapore"
+  },
+  {
+    "canonical_id": 3241,
+    "canonical_name": "Spago by Wolfgang Puck"
+  },
+  {
+    "canonical_id": 6383,
+    "canonical_name": "O.BBa Bukit Timah"
+  },
+  {
+    "canonical_id": 3573,
+    "canonical_name": "Katsuan"
+  },
+  {
+    "canonical_id": 3588,
+    "canonical_name": "Lim Joo Hin Eating House"
+  },
+  {
+    "canonical_id": 3611,
+    "canonical_name": "Open Door Policy"
+  },
+  {
+    "canonical_id": 3620,
+    "canonical_name": "Poison Ivy Bistro"
+  },
+  {
+    "canonical_id": 6307,
+    "canonical_name": "Forma"
+  },
+  {
+    "canonical_id": 6437,
+    "canonical_name": "Kanves"
+  },
+  {
+    "canonical_id": 3741,
+    "canonical_name": "CHEFLAM'S"
+  },
+  {
+    "canonical_id": 3787,
+    "canonical_name": "Eggslut"
+  },
+  {
+    "canonical_id": 3798,
+    "canonical_name": "FOC Sentosa"
+  },
+  {
+    "canonical_id": 3805,
+    "canonical_name": "Fleurette"
+  },
+  {
+    "canonical_id": 3868,
+    "canonical_name": "Joie Restaurant"
+  },
+  {
+    "canonical_id": 3877,
+    "canonical_name": "Kanada-Ya"
+  },
+  {
+    "canonical_id": 3900,
+    "canonical_name": "Krua Apsorn"
+  },
+  {
+    "canonical_id": 3936,
+    "canonical_name": "Matera"
+  },
+  {
+    "canonical_id": 4050,
+    "canonical_name": "Suju Japanese Restaurant"
+  },
+  {
+    "canonical_id": 4066,
+    "canonical_name": "Terra Tokyo Italian"
+  },
+  {
+    "canonical_id": 4079,
+    "canonical_name": "The Old Man Singapore"
+  },
+  {
+    "canonical_id": 6387,
+    "canonical_name": "Spize Rifle Range"
+  },
+  {
+    "canonical_id": 6730,
+    "canonical_name": "\u5170\u9999\u9eb5\u7c89\u7cbf-\u677f\u9eb5"
+  },
+  {
+    "canonical_id": 4139,
+    "canonical_name": "1974 by Meat Affair"
+  },
+  {
+    "canonical_id": 4140,
+    "canonical_name": "230 Fifth Rooftop"
+  },
+  {
+    "canonical_id": 4141,
+    "canonical_name": "2D1N Soju Bang"
+  },
+  {
+    "canonical_id": 4167,
+    "canonical_name": "Adrift by David Myers"
+  },
+  {
+    "canonical_id": 4216,
+    "canonical_name": "Andsoforth's Around The World in 80 Days"
+  },
+  {
+    "canonical_id": 4219,
+    "canonical_name": "Angry Egret Dinette"
+  },
+  {
+    "canonical_id": 4230,
+    "canonical_name": "Aqua Shard"
+  },
+  {
+    "canonical_id": 4265,
+    "canonical_name": "Balaclava"
+  },
+  {
+    "canonical_id": 4290,
+    "canonical_name": "BeaverTail"
+  },
+  {
+    "canonical_id": 4299,
+    "canonical_name": "Bengal Tiger Indian Food"
+  },
+  {
+    "canonical_id": 4305,
+    "canonical_name": "Bhatti Indian Grill"
+  },
+  {
+    "canonical_id": 4328,
+    "canonical_name": "Bones 'n Slaw"
+  },
+  {
+    "canonical_id": 4338,
+    "canonical_name": "Brasserie Les Saveurs"
+  },
+  {
+    "canonical_id": 4387,
+    "canonical_name": "Campbell Lane Hidden Gem"
+  },
+  {
+    "canonical_id": 4406,
+    "canonical_name": "Celadon"
+  },
+  {
+    "canonical_id": 4408,
+    "canonical_name": "Celestine"
+  },
+  {
+    "canonical_id": 4454,
+    "canonical_name": "Chop Suey Club"
+  },
+  {
+    "canonical_id": 4466,
+    "canonical_name": "Circa 1886"
+  },
+  {
+    "canonical_id": 4471,
+    "canonical_name": "Clos Maggiore"
+  },
+  {
+    "canonical_id": 4472,
+    "canonical_name": "Cloves Indian Cuisine"
+  },
+  {
+    "canonical_id": 4522,
+    "canonical_name": "Daessiksin"
+  },
+  {
+    "canonical_id": 4534,
+    "canonical_name": "Denny's"
+  },
+  {
+    "canonical_id": 4556,
+    "canonical_name": "E-Jae Pak Mor"
+  },
+  {
+    "canonical_id": 4564,
+    "canonical_name": "Eau Zone"
+  },
+  {
+    "canonical_id": 4569,
+    "canonical_name": "Eiffel Tower Restaurant"
+  },
+  {
+    "canonical_id": 4602,
+    "canonical_name": "Fengshan Food Centre"
+  },
+  {
+    "canonical_id": 4616,
+    "canonical_name": "Five &2"
+  },
+  {
+    "canonical_id": 4641,
+    "canonical_name": "Frijoles"
+  },
+  {
+    "canonical_id": 4653,
+    "canonical_name": "Gaggan"
+  },
+  {
+    "canonical_id": 4689,
+    "canonical_name": "Girafe"
+  },
+  {
+    "canonical_id": 4690,
+    "canonical_name": "Go Gi Jip Premium Korean BBQ"
+  },
+  {
+    "canonical_id": 4712,
+    "canonical_name": "Grey & Kellys"
+  },
+  {
+    "canonical_id": 4748,
+    "canonical_name": "Haldiram's Prabhuji"
+  },
+  {
+    "canonical_id": 4845,
+    "canonical_name": "Ithaca"
+  },
+  {
+    "canonical_id": 4878,
+    "canonical_name": "Jiro Restaurant Roppongi"
+  },
+  {
+    "canonical_id": 4894,
+    "canonical_name": "Ju Hua Lou"
+  },
+  {
+    "canonical_id": 4925,
+    "canonical_name": "Kanna's"
+  },
+  {
+    "canonical_id": 4926,
+    "canonical_name": "Kanoyama"
+  },
+  {
+    "canonical_id": 5017,
+    "canonical_name": "La Chuparosa"
+  },
+  {
+    "canonical_id": 5026,
+    "canonical_name": "La Stanza"
+  },
+  {
+    "canonical_id": 5029,
+    "canonical_name": "Lab Gourmand"
+  },
+  {
+    "canonical_id": 5030,
+    "canonical_name": "Labrynith"
+  },
+  {
+    "canonical_id": 5048,
+    "canonical_name": "Le Binchotan"
+  },
+  {
+    "canonical_id": 5065,
+    "canonical_name": "Les Ombres"
+  },
+  {
+    "canonical_id": 5074,
+    "canonical_name": "Linguine"
+  },
+  {
+    "canonical_id": 5109,
+    "canonical_name": "Lungi"
+  },
+  {
+    "canonical_id": 5188,
+    "canonical_name": "Mister Munro Restaurant and Bar"
+  },
+  {
+    "canonical_id": 5194,
+    "canonical_name": "Mizumi"
+  },
+  {
+    "canonical_id": 5233,
+    "canonical_name": "Nahm"
+  },
+  {
+    "canonical_id": 5246,
+    "canonical_name": "Nanjing Street Bak Kut Teh"
+  },
+  {
+    "canonical_id": 5272,
+    "canonical_name": "Nihonshu Room by Meta"
+  },
+  {
+    "canonical_id": 5309,
+    "canonical_name": "Oh Mak Gua"
+  },
+  {
+    "canonical_id": 5324,
+    "canonical_name": "One If By Land, Two If By Sea"
+  },
+  {
+    "canonical_id": 5334,
+    "canonical_name": "Orgo"
+  },
+  {
+    "canonical_id": 5373,
+    "canonical_name": "Penumbra"
+  },
+  {
+    "canonical_id": 5377,
+    "canonical_name": "Peppina"
+  },
+  {
+    "canonical_id": 5383,
+    "canonical_name": "Phnom Penh Noodle House"
+  },
+  {
+    "canonical_id": 5424,
+    "canonical_name": "Pu Ti Zhai"
+  },
+  {
+    "canonical_id": 5434,
+    "canonical_name": "Purple Hibiscus"
+  },
+  {
+    "canonical_id": 5443,
+    "canonical_name": "R2L"
+  },
+  {
+    "canonical_id": 5474,
+    "canonical_name": "Rokeby"
+  },
+  {
+    "canonical_id": 5489,
+    "canonical_name": "RuYi Modern Chinese"
+  },
+  {
+    "canonical_id": 5545,
+    "canonical_name": "Sendok Rakyat"
+  },
+  {
+    "canonical_id": 5548,
+    "canonical_name": "Seng's Noodle Bar"
+  },
+  {
+    "canonical_id": 5602,
+    "canonical_name": "Skylon Tower's Revolving Dining Room"
+  },
+  {
+    "canonical_id": 5615,
+    "canonical_name": "Solange"
+  },
+  {
+    "canonical_id": 5620,
+    "canonical_name": "SongGyeOk SG"
+  },
+  {
+    "canonical_id": 5627,
+    "canonical_name": "South & East"
+  },
+  {
+    "canonical_id": 5648,
+    "canonical_name": "Sugarfish"
+  },
+  {
+    "canonical_id": 5704,
+    "canonical_name": "Table65"
+  },
+  {
+    "canonical_id": 5709,
+    "canonical_name": "TaiPing XLB"
+  },
+  {
+    "canonical_id": 5717,
+    "canonical_name": "Takumi by Daisuke Mori"
+  },
+  {
+    "canonical_id": 5737,
+    "canonical_name": "Taxi Kitchen"
+  },
+  {
+    "canonical_id": 5755,
+    "canonical_name": "Tha Chang Noodle Bar"
+  },
+  {
+    "canonical_id": 5759,
+    "canonical_name": "Thaipusam"
+  },
+  {
+    "canonical_id": 5761,
+    "canonical_name": "That's My Pizza"
+  },
+  {
+    "canonical_id": 5784,
+    "canonical_name": "The Fullerton Bay Hotel"
+  },
+  {
+    "canonical_id": 5827,
+    "canonical_name": "The Sampan"
+  },
+  {
+    "canonical_id": 5839,
+    "canonical_name": "The Tau Huay Stall"
+  },
+  {
+    "canonical_id": 5878,
+    "canonical_name": "Tokunori"
+  },
+  {
+    "canonical_id": 5897,
+    "canonical_name": "Toritama"
+  },
+  {
+    "canonical_id": 5935,
+    "canonical_name": "Veloo Meena"
+  },
+  {
+    "canonical_id": 5960,
+    "canonical_name": "Wangdaebak Pocha"
+  },
+  {
+    "canonical_id": 5964,
+    "canonical_name": "Warehouse Hotel's Po"
+  },
+  {
+    "canonical_id": 5970,
+    "canonical_name": "Warung Pak Jen"
+  },
+  {
+    "canonical_id": 5973,
+    "canonical_name": "Waterbar"
+  },
+  {
+    "canonical_id": 5978,
+    "canonical_name": "Wentang"
+  },
+  {
+    "canonical_id": 6008,
+    "canonical_name": "Ya Ge Chinese Restaurant"
+  },
+  {
+    "canonical_id": 6015,
+    "canonical_name": "Yakun"
+  },
+  {
+    "canonical_id": 6028,
+    "canonical_name": "Yin Ji Rice Roll"
+  },
+  {
+    "canonical_id": 6060,
+    "canonical_name": "Zuma"
+  },
+  {
+    "canonical_id": 6065,
+    "canonical_name": "noa by Olivia"
+  },
+  {
+    "canonical_id": 6070,
+    "canonical_name": "\u00d4 Comptoir"
+  },
+  {
+    "canonical_id": 6074,
+    "canonical_name": "Froth"
+  },
+  {
+    "canonical_id": 6076,
+    "canonical_name": "JL Studio"
+  },
+  {
+    "canonical_id": 6080,
+    "canonical_name": "PO at The Warehouse Hotel"
+  },
+  {
+    "canonical_id": 6081,
+    "canonical_name": "Kelewele"
+  },
+  {
+    "canonical_id": 6085,
+    "canonical_name": "Po Restaurant"
+  },
+  {
+    "canonical_id": 6090,
+    "canonical_name": "Jelebu Dry Laksa"
+  },
+  {
+    "canonical_id": 6096,
+    "canonical_name": "Pastrami or Cheesesteak Stalls"
+  },
+  {
+    "canonical_id": 6128,
+    "canonical_name": "Gemmill & Stephens"
+  },
+  {
+    "canonical_id": 6182,
+    "canonical_name": "Hwajip Jip"
+  },
+  {
+    "canonical_id": 6258,
+    "canonical_name": "Hutong"
+  },
+  {
+    "canonical_id": 6288,
+    "canonical_name": "Chop Suey"
+  },
+  {
+    "canonical_id": 6301,
+    "canonical_name": "Liang Sandwich Bar"
+  },
+  {
+    "canonical_id": 6328,
+    "canonical_name": "Super Boring Club"
+  },
+  {
+    "canonical_id": 6345,
+    "canonical_name": "Ameen Makan House"
+  },
+  {
+    "canonical_id": 6378,
+    "canonical_name": "Fong Wah Teochew Porridge"
+  },
+  {
+    "canonical_id": 6405,
+    "canonical_name": "Planta"
+  },
+  {
+    "canonical_id": 6427,
+    "canonical_name": "Eug\u00e8ne"
+  },
+  {
+    "canonical_id": 6431,
+    "canonical_name": "Buttermilk Restaurant"
+  },
+  {
+    "canonical_id": 6440,
+    "canonical_name": "Ga Ya Geum"
+  },
+  {
+    "canonical_id": 6471,
+    "canonical_name": "Kuni"
+  },
+  {
+    "canonical_id": 6502,
+    "canonical_name": "Nam Nam Noodle & Street Food"
+  },
+  {
+    "canonical_id": 6597,
+    "canonical_name": "Go Gi Jip"
+  },
+  {
+    "canonical_id": 6601,
+    "canonical_name": "Local Kueh Specialty Shops on Joo Chiat Road"
+  },
+  {
+    "canonical_id": 6655,
+    "canonical_name": "Potato Head Beach Club"
+  },
+  {
+    "canonical_id": 6660,
+    "canonical_name": "Melt Caf\u00e9"
+  },
+  {
+    "canonical_id": 6662,
+    "canonical_name": "Cheeseman Factory"
+  },
+  {
+    "canonical_id": 6673,
+    "canonical_name": "Flagship"
+  }
+]
