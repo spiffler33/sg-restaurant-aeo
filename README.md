@@ -220,6 +220,10 @@ This project takes the research angle: instead of optimizing *for* AI engines, s
 - The stakes are real — restaurants live and die by discovery
 - It's universally relatable
 
+## Related Work
+
+- **[DefaultTaste](https://github.com/ilhamfp/DefaultTaste)** — Winner at the Gemini 3 Singapore hackathon (March 7, 2026). Explores AI and default taste formation in food recommendations.
+
 ## License
 
 MIT — use this however you want. If you publish research based on this work, a citation would be appreciated.
