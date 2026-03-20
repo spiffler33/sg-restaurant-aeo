@@ -33,5 +33,6 @@ Thumbs.db
 # uv
 .python-version
 
-# Claude Code local settings
-.claude/
+# Claude Code local settings (keep skills/ tracked for contributors)
+.claude/*
+!.claude/skills/
